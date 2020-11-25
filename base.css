@@ -1,0 +1,4441 @@
+@charset "UTF-8";
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  cursor: url("/assets/arrow.png"), auto;
+}
+
+::selection,
+::-moz-selection {
+  color: var(--color-sheet);
+  background-color: var(--color-text);
+}
+
+::-webkit-scrollbar {
+  width: 1.5rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--color-sheet);
+  border: 0.4rem solid var(--color-text);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-text);
+  background: var(--color-text) url('/assets/scroll.svg') center / 0.5em no-repeat;
+}
+
+html {
+  height: 100%;
+  font-size: 10px;
+  background-color: var(--color-background);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-main);
+  font-size: var(--type-base);
+  color: var(--color-text);
+  background: var(--color-background) url('/assets/seal.png') center / 10em repeat fixed;
+}
+
+main {
+  position: relative;
+  z-index: 5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: var(--leading-s);
+}
+
+h1 {
+  margin: 0.5em 0;
+  font-size: var(--type-xxl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  transition: font-weight 0.2s ease;
+}
+
+h2 {
+  margin: 3em 0 0.25em 0;
+  font-size: var(--type-xl);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+h3 {
+  margin: 1.5em 0 0.25em 0;
+  font-size: var(--type-l);
+  font-weight: 900;
+}
+
+h4,
+h5,
+h6 {
+  margin: 1em 0 0 0;
+  font-size: var(--type-m);
+  font-weight: 600;
+}
+
+p,
+ul,
+ol,
+dl {
+  margin: 0 0 1.5em 0;
+  font-size: var(--type-s);
+  line-height: var(--leading-l);
+  font-weight: 300;
+}
+
+blockquote {
+  position: relative;
+  margin: 1.5em 0;
+  padding: 0;
+  quotes: "\201C""\201D""\2018""\2019";
+  text-transform: uppercase;
+  font-size: var(--type-m);
+  letter-spacing: 0.1em;
+  font-weight: 200;
+  font-style: italic;
+
+  & > ::before {
+    content: '“';
+    position: absolute;
+    top: -0.25em;
+    left: -0.75em;
+    z-index: 1;
+    color: var(--color-text);
+    font-weight: 900;
+    font-size: 600%;
+    filter: url("#noise3");
+  }
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style-position: inside;
+}
+
+ul {
+  list-style-type: circle;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+ul li,
+ol li {
+  margin-left: 0;
+  margin-bottom: 1em;
+  position: relative;
+}
+
+ul li ul,
+ul li ol,
+ol li ol,
+ol li ul {
+  margin-left: 1.25em;
+  margin-bottom: 0;
+  font-size: var(--type-m);
+}
+
+b,
+strong {
+  font-weight: 800;
+}
+
+i,
+em {
+  font-style: italic;
+}
+
+small {
+  font-size: var(--type-s);
+}
+
+a,
+a:visited {
+  color: var(--color-text);
+  text-decoration-thickness: 0.1em;
+}
+
+a:hover {
+  text-decoration-thickness: 0.2em;
+  cursor: url("/assets/pointer.png"), auto;
+
+  &:not([class]) {
+    background-color: var(--color-accent);
+    animation: color-cycle 0.25s step-start infinite;
+
+    @media (prefers-reduced-motion) {
+      animation: none;
+    }
+  }
+
+  & > * {
+    cursor: url("/assets/pointer.png"), auto;
+  }
+}
+
+img,
+embed,
+object,
+video {
+  max-width: 100%;
+}
+
+hr {
+  width: 100%;
+  margin: 3em 0;
+  border: 0;
+  border-top: 0.1rem solid var(--color-text);
+}
+
+
+@font-face {
+  font-family: 'PressStart2P';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/assets/PressStart2P.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* ----------------------------------------------------------------------------
+custom media queries
+---------------------------------------------------------------------------- */
+@custom-media --viewport-small (max-width: 54.9em);
+@custom-media --viewport-medium (min-width: 55em);
+@custom-media --viewport-large (min-width: 100em);
+@custom-media --viewport-retina (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi);
+
+/* ----------------------------------------------------------------------------
+custom properties
+---------------------------------------------------------------------------- */
+:root {
+  /* colors */
+  --color-text: #000;
+  --color-sheet: #ddd;
+  --color-background: #990000;
+  --color-accent: #5fddc5;
+  --color-highlight: #ffff27;
+
+  /* spacing presets */
+  --space-xs: 0.25em;
+  --space-s: 0.5em;
+  --space-m: 1em;
+  --space-l: 2em;
+  --space-xl: 3em;
+  --space-xxl: 4em;
+  --space-xxxl: 6em;
+
+  /* font stacks */
+  --font-main: 'PressStart2P', 'Helvetica Neue', helvetica, 'Apple Color Emoji', arial, sans-serif;
+
+  /* default type size */
+  --type-base: max(1.6em, min(calc(0.8em + 0.8vw), 2.2em));
+
+  /* type scales */
+  --type-xxxs: 55%;
+  --type-xxs: 65%;
+  --type-xs: 75%;
+  --type-s: 88%;
+  --type-m: 100%;
+  --type-l: 125%;
+  --type-xl: 150%;
+  --type-xxl: 175%;
+  --type-xxxl: 200%;
+
+  /* leading */
+  --leading-s: 1.25;
+  --leading-m: 1.5;
+  --leading-l: 2;
+}
+
+/* ----------------------------------------------------------------------------
+custom fonts
+---------------------------------------------------------------------------- */
+
+.window__toolbar {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  width: 100%;
+  z-index: 100;
+  background-color: var(--color-sheet);
+  border-bottom: 0.4rem solid var(--color-text);
+
+  @nest .window.--fullscreen & {
+    position: absolute;
+    top: 0;
+  }
+}
+
+.window__content {
+  padding: 1.5em 1.5em 0.5em 1.5em;
+
+  @nest .window.--fullscreen & {
+    position: absolute;
+    top: 4rem;
+    bottom: -0.5rem;
+    overflow-y: auto;
+  }
+}
+
+.window__name {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding-left: 0.5em;
+  font-size: var(--type-xs);
+  font-weight: normal;
+  text-transform: none;
+}
+
+.window__controls {
+  display: flex;
+  align-items: center;
+}
+
+.window__close {
+  width: 4rem;
+  height: 4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-indent: -1000em;
+  color: var(--color-sheet);
+  background: var(--color-text) url('/assets/close.svg') center / 2rem no-repeat;
+
+  &:hover {
+    cursor: url("/assets/pointer.png"), auto;
+  }
+}
+
+.window__select {
+  display: inline-block;
+  width: auto;
+  height: 3rem;
+  font-size: var(--type-xs);
+  font-family: var(--font-main);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: var(--leading-s);
+  padding: 0.35em 2em 0.25em 0.75em;
+  box-sizing: border-box;
+  margin: 0 1em;
+  border: none;
+  border-right: 0.4rem solid var(--color-text);
+  border-left: 0.4rem solid var(--color-text);
+  box-shadow: none;
+  border-radius: 0;
+  appearance: none;
+  background-color: var(--color-sheet);
+  background-image:
+    url("/assets//down.svg"),
+    linear-gradient(to bottom, var(--color-sheet) 0%, var(--color-sheet) 100%);
+  background-repeat: no-repeat, repeat;
+  background-position: right 0.7em top 50%, 0 0;
+  background-size: 1em auto, 100%;
+
+  @media (--viewport-small) {
+    margin: 0;
+    padding: 0.25em 2em 0.25em 0.75em;
+    font-size: var(--type-m);
+    border-left: none;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: 0;
+  }
+}
+
+.window__counter {
+  display: none;
+
+  @nest .js & {
+    display: block;
+    margin: 0;
+    padding: 0.5em 0.25em 0.25em 0.25em;
+    font-size: var(--type-xxxs);
+    color: var(--color-sheet);
+    background-color: var(--color-text);
+  }
+
+  @nest .no-stats & {
+    display: none !important;
+  }
+}
+
+
+.window { 
+  position: relative;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  background-color: var(--color-sheet);
+  border: .5rem solid #000;
+  border: .5rem solid var(--color-text);
+  box-shadow: .5rem .5rem 0 #000;
+  box-shadow: .5rem .5rem 0 var(--color-text);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+  gap: min(2.5vw, 2.5ch);
+  padding: min(2.5vw, 2.5ch);
+
+  & > .grid {
+    grid-column: 1 / -1;
+    padding: 0;
+  }
+
+  @media (--viewport-medium) {
+    grid-template-columns: repeat(12, minmax(2.5ch, 100%));
+
+    & > *:not([class*="grid"]) {
+      grid-column: 3 / span 6;
+    }
+  }
+}
+
+.grid__item {
+  grid-column: 1;
+
+  @media (--viewport-medium) {
+    grid-column: 3 / span 6;
+
+    &.--span-3 { grid-column-end: span 3; }
+    &.--span-4 { grid-column-end: span 4; }
+    &.--span-5 { grid-column-end: span 5; }
+    &.--span-6 { grid-column-end: span 6; }
+    &.--span-7 { grid-column-end: span 7; }
+    &.--span-8 { grid-column-end: span 8; }
+    &.--span-9 { grid-column-end: span 9; }
+    &.--span-10 { grid-column-end: span 10; }
+    &.--span-11 { grid-column-end: span 11; }
+    &.--span-12 { grid-column: 1 / span 12; }
+
+    &.--start-1 { grid-column-start: 1; }
+    &.--start-2 { grid-column-start: 2; }
+    &.--start-3 { grid-column-start: 3; }
+    &.--start-4 { grid-column-start: 4; }
+    &.--start-5 { grid-column-start: 5; }
+    &.--start-6 { grid-column-start: 6; }
+    &.--start-7 { grid-column-start: 7; }
+    &.--start-8 { grid-column-start: 8; }
+    &.--start-9 { grid-column-start: 9; }
+    &.--start-auto { grid-column-start: auto; }
+
+    &.--place-start { place-self: start; }
+    &.--place-center { place-self: center; }
+    &.--place-end { place-self: end; }
+  }
+}
+/* ----------------------------------------------------------------------------
+text utilities
+---------------------------------------------------------------------------- */
+
+.text {
+
+  &.--size-xxxs { font-size: var(--type-xxxs); }
+  &.--size-xxs { font-size: var(--type-xxs); }
+  &.--size-xs { font-size: var(--type-xs); }
+  &.--size-s { font-size: var(--type-s); }
+  &.--size-m { font-size: var(--type-m); }
+  &.--size-l { font-size: var(--type-l); }
+
+  &.--size-xl {
+    font-size: var(--type-xl);
+    line-height: var(--leading-m);
+  }
+
+  &.--size-xxl {
+    font-size: var(--type-xxl);
+    line-height: var(--leading-m);
+  }
+
+  &.--size-xxxl {
+    font-size: var(--type-xxxl);
+    line-height: var(--leading-s);
+  }
+
+  &.--weight-400 { font-weight: 400; }
+  &.--weight-500 { font-weight: 500; }
+  &.--weight-600 { font-weight: 600; }
+  &.--weight-700 { font-weight: 700; }
+  &.--weight-800 { font-weight: 800; }
+
+  &.--align-center { text-align: center; }
+  &.--align-right { text-align: right; }
+
+  &.--leading-s { line-height: var(--leading-s); }
+  &.--leading-m { line-height: var(--leading-m); }
+  &.--leading-l { line-height: var(--leading-l); }
+
+  &.--highlight { background-color: var(--color-highlight); }
+}
+
+/* ----------------------------------------------------------------------------
+text utilities
+---------------------------------------------------------------------------- */
+
+.text {
+
+  &.--size-xxxs { font-size: var(--type-xxxs); }
+  &.--size-xxs { font-size: var(--type-xxs); }
+  &.--size-xs { font-size: var(--type-xs); }
+  &.--size-s { font-size: var(--type-s); }
+  &.--size-m { font-size: var(--type-m); }
+  &.--size-l { font-size: var(--type-l); }
+
+  &.--size-xl {
+    font-size: var(--type-xl);
+    line-height: var(--leading-m);
+  }
+
+  &.--size-xxl {
+    font-size: var(--type-xxl);
+    line-height: var(--leading-m);
+  }
+
+  &.--size-xxxl {
+    font-size: var(--type-xxxl);
+    line-height: var(--leading-s);
+  }
+
+  &.--weight-400 { font-weight: 400; }
+  &.--weight-500 { font-weight: 500; }
+  &.--weight-600 { font-weight: 600; }
+  &.--weight-700 { font-weight: 700; }
+  &.--weight-800 { font-weight: 800; }
+
+  &.--align-center { text-align: center; }
+  &.--align-right { text-align: right; }
+
+  &.--leading-s { line-height: var(--leading-s); }
+  &.--leading-m { line-height: var(--leading-m); }
+  &.--leading-l { line-height: var(--leading-l); }
+
+  &.--highlight { background-color: var(--color-highlight); }
+}
+
+@-webkit-keyframes loading {
+ to {
+  transform:translateX(20px)
+ }
+}
+@keyframes loading {
+ to {
+  transform:translateX(20px)
+ }
+}
+@-webkit-keyframes pulse {
+ 0% {
+  opacity:.3
+ }
+ 50% {
+  opacity:1
+ }
+ to {
+  opacity:.3
+ }
+}
+@keyframes pulse {
+ 0% {
+  opacity:.3
+ }
+ 50% {
+  opacity:1
+ }
+ to {
+  opacity:.3
+ }
+}
+#PlayerOne.ui-enabled {
+ font-family:IBM Plex Sans,Helvetica Neue,Arial,sans-serif;
+ color:#fff;
+ font-size:10px;
+ -webkit-font-smoothing:antialiased/*! Cookie overlay for embeds - 1.4.8 */
+}
+#PlayerOne.ui-enabled h1,
+#PlayerOne.ui-enabled h2,
+#PlayerOne.ui-enabled h3,
+#PlayerOne.ui-enabled p {
+ color:#fff
+}
+#PlayerOne.ui-enabled.fullscreen-mode {
+ font-size:14px
+}
+#PlayerOne.ui-enabled .component {
+ display:inline-block;
+ vertical-align:middle;
+ user-select:none;
+ -webkit-user-select:none;
+ cursor:pointer
+}
+#PlayerOne.ui-enabled .component svg {
+ vertical-align:middle;
+ min-width:32px;
+ min-height:32px;
+ opacity:.7;
+ cursor:pointer;
+ transition:opacity .2s ease-out
+}
+#PlayerOne.ui-enabled .component:not(.container):not(.no-hover):not(.disabled).enabled svg,
+#PlayerOne.ui-enabled .component:not(.container):not(.no-hover):not(.disabled).opened svg,
+#PlayerOne.ui-enabled .component:not(.container):not(.no-hover):not(.disabled).trigger:hover svg,
+#PlayerOne.ui-enabled .component:not(.container):not(.no-hover):not(.disabled) .trigger:hover svg {
+ opacity:1
+}
+#PlayerOne.ui-enabled .component:not(.container):not(.no-hover):not(.disabled).trigger:hover svg,
+#PlayerOne.ui-enabled .component:not(.container):not(.no-hover):not(.disabled) .trigger:hover svg {
+ filter:drop-shadow(0 0 5px rgba(255,255,255,.5));
+ -webkit-filter:drop-shadow(0 0 5px hsla(0,0%,100%,.5))
+}
+#PlayerOne.ui-enabled .component.hidden {
+ display:none
+}
+#PlayerOne.ui-enabled .component.shown {
+ display:inline-block
+}
+#PlayerOne.ui-enabled .component.disabled {
+ opacity:.6
+}
+#PlayerOne.ui-enabled .container {
+ width:100%;
+ height:auto;
+ margin:0;
+ padding:0;
+ cursor:default;
+ -webkit-box-sizing:border-box;
+ -moz-box-sizing:border-box;
+ box-sizing:border-box;
+ transition:opacity .2s ease-out
+}
+#PlayerOne.ui-enabled .container.inline {
+ width:auto
+}
+#PlayerOne.ui-enabled .panel {
+ background:hsla(0,0%,9%,.9);
+ border-radius:2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .close,
+#PlayerOne.ui-enabled.fullscreen-mode svg {
+ width:44.8px;
+ height:44.8px
+}
+#PlayerOne.ui-enabled .scrollable-y {
+ overflow-y:auto;
+ overflow-x:hidden
+}
+#PlayerOne.ui-enabled .close {
+ position:absolute;
+ top:12px;
+ right:12px;
+ width:32px;
+ height:32px;
+ cursor:pointer;
+ opacity:.8;
+ background:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiPjxwYXRoIGQ9Ik0xMy40MjUgMTIuMDEzbDMuMzA0IDMuMzA0YS45OTkuOTk5IDAgMTEtMS40MTQgMS40MTRMMTIgMTMuNDE2bC0zLjMxNSAzLjMxNWEuOTk5Ljk5OSAwIDExLTEuNDE0LTEuNDE0bDMuMzA0LTMuMzA0LTMuMzA0LTMuMzNhLjk5OS45OTkgMCAxMTEuNDE0LTEuNDE0TDEyIDEwLjYxbDMuMzE1LTMuMzQxYTEgMSAwIDAxMS40MTQgMS40MTRsLTMuMzA0IDMuMzN6IiBmaWxsPSIjZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=);
+ background-size:100%;
+ z-index:11
+}
+#PlayerOne.ui-enabled .close:hover {
+ opacity:1
+}
+#PlayerOne.ui-enabled .in-progress .trigger {
+ -webkit-animation:pulse 1.2s ease-in-out infinite;
+ animation:pulse 1.2s ease-in-out infinite
+}
+#PlayerOne.ui-enabled .trigger {
+ position:relative;
+ background:none;
+ text-shadow:none;
+ box-shadow:none;
+ padding:0;
+ margin:0;
+ border:none;
+ border-radius:0
+}
+#PlayerOne.ui-enabled .trigger:after {
+ display:none;
+ position:absolute;
+ content:"";
+ top:0;
+ left:0;
+ bottom:0;
+ right:0;
+ border:2px solid #f1c21b;
+ box-shadow:0 0 2px 1px rgba(0,0,0,.2);
+ box-sizing:border-box
+}
+#PlayerOne.ui-enabled .trigger.focus-visible {
+ outline:none
+}
+#PlayerOne.ui-enabled .trigger.focus-visible:after {
+ display:block
+}
+#PlayerOne.ui-enabled.fullscreen-mode .text-left,
+#PlayerOne.ui-enabled .text-left {
+ text-align:left
+}
+#PlayerOne.ui-enabled.fullscreen-mode .text-right,
+#PlayerOne.ui-enabled .text-right {
+ text-align:right
+}
+#PlayerOne.ui-enabled.fullscreen-mode .text-center,
+#PlayerOne.ui-enabled .text-center {
+ text-align:center
+}
+#PlayerOne.ui-enabled.fullscreen-mode .half-width,
+#PlayerOne.ui-enabled .half-width {
+ width:50%
+}
+#PlayerOne.ui-enabled .full-width,
+#PlayerOne.ui-enabled.fullscreen-mode .full-width {
+ width:100%
+}
+#PlayerOne.ui-enabled h1 {
+ font-size:2em
+}
+#PlayerOne.ui-enabled h2 {
+ color:#fff;
+ font-size:1.8em
+}
+#PlayerOne.ui-enabled h3 {
+ color:#f3f3f3;
+ font-size:15px;
+ font-weight:600;
+ line-height:22px;
+ margin:0;
+ padding:0
+}
+#PlayerOne.ui-enabled h4 {
+ font-weight:400;
+ font-size:13px;
+ line-height:19px;
+ margin:2px 0 0;
+ padding:0;
+ text-transform:uppercase
+}
+#PlayerOne.ui-enabled h3+p {
+ margin-top:2px
+}
+#PlayerOne.ui-enabled p {
+ clear:both;
+ font-weight:400;
+ font-size:13px;
+ color:#bebebe;
+ line-height:20px;
+ margin:0 0 15px;
+ padding:0
+}
+#PlayerOne.ui-enabled.fullscreen-mode p {
+ font-size:18.2px;
+ line-height:28px
+}
+#PlayerOne.ui-enabled.fullscreen-mode h3 {
+ font-size:21px;
+ line-height:30.8px
+}
+#PlayerOne.ui-enabled.fullscreen-mode h4 {
+ font-size:18.2px;
+ line-height:26.6px
+}
+#PlayerOne.ui-enabled input,
+#PlayerOne.ui-enabled input[type=email],
+#PlayerOne.ui-enabled input[type=number],
+#PlayerOne.ui-enabled input[type=password],
+#PlayerOne.ui-enabled input[type=search],
+#PlayerOne.ui-enabled input[type=tel],
+#PlayerOne.ui-enabled input[type=text]:not(#share_control_link_input),
+#PlayerOne.ui-enabled input[type=url],
+#PlayerOne.ui-enabled select,
+#PlayerOne.ui-enabled textarea {
+ width:100%;
+ box-sizing:border-box;
+ background:#3d3d3d;
+ min-height:32px;
+ padding:0 10px;
+ font-size:13px;
+ line-height:22px;
+ font-weight:400;
+ color:#f3f3f3;
+ border:none;
+ border-bottom:1px solid #6f6f6f;
+ border-radius:0
+}
+#PlayerOne.ui-enabled select {
+ -webkit-appearance:none;
+ font-size:13px;
+ background:url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEyIDE4bDQtNHYtMUg4djFsNCA0em0wLTEybC00IDR2MWg4di0xbC00LTR6IiBmaWxsPSIjZmZmIi8+PC9zdmc+) no-repeat;
+ background-position:100%;
+ background-color:#3d3d3d
+}
+#PlayerOne.ui-enabled .link {
+ color:#0062ff;
+ font-weight:400
+}
+#PlayerOne.ui-enabled textarea {
+ display:block;
+ height:86px;
+ line-height:18px;
+ padding:7px 10px;
+ resize:none
+}
+#PlayerOne.ui-enabled .bttn,
+#PlayerOne.ui-enabled button {
+ position:relative;
+ font-size:13px;
+ font-family:inherit
+}
+#PlayerOne.ui-enabled .bttn:not(.trigger),
+#PlayerOne.ui-enabled button:not(.trigger) {
+ box-sizing:border-box;
+ background-color:#0062ff;
+ font-weight:700;
+ line-height:24px;
+ text-transform:uppercase;
+ height:32px;
+ padding:0 16px;
+ display:inline-block;
+ position:relative;
+ margin:12px 0;
+ border:0;
+ color:#f3f3f3;
+ text-shadow:none;
+ text-decoration:none;
+ border-radius:0;
+ box-shadow:none;
+ background-image:none
+}
+#PlayerOne.ui-enabled .bttn:not(.trigger):hover,
+#PlayerOne.ui-enabled button:not(.trigger):hover {
+ background:#0353e9
+}
+#PlayerOne.ui-enabled .bttn:hover,
+#PlayerOne.ui-enabled button:hover {
+ cursor:pointer
+}
+#PlayerOne.ui-enabled .bttn object,
+#PlayerOne.ui-enabled button object {
+ cursor:pointer;
+ position:absolute;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ opacity:0
+}
+#PlayerOne.ui-enabled .bttn:after,
+#PlayerOne.ui-enabled button:after {
+ display:none;
+ position:absolute;
+ content:"";
+ top:0;
+ left:0;
+ bottom:0;
+ right:0;
+ border:2px solid #f1c21b;
+ box-shadow:0 0 2px 1px rgba(0,0,0,.2);
+ box-sizing:border-box
+}
+#PlayerOne.ui-enabled .bttn.focus-visible,
+#PlayerOne.ui-enabled button.focus-visible {
+ outline:none
+}
+#PlayerOne.ui-enabled .bttn.focus-visible:after,
+#PlayerOne.ui-enabled button.focus-visible:after {
+ display:block
+}
+#PlayerOne.ui-enabled a[href],
+#PlayerOne.ui-enabled button.bttn-link {
+ background-color:transparent;
+ text-transform:none;
+ font-size:13px;
+ font-weight:500;
+ color:#6ea6ff;
+ border-radius:0;
+ text-decoration:underline
+}
+#PlayerOne.ui-enabled a[href]:active,
+#PlayerOne.ui-enabled a[href]:focus,
+#PlayerOne.ui-enabled a[href]:hover,
+#PlayerOne.ui-enabled button.bttn-link:active,
+#PlayerOne.ui-enabled button.bttn-link:focus,
+#PlayerOne.ui-enabled button.bttn-link:hover {
+ background-color:transparent
+}
+#PlayerOne.ui-enabled a[href] {
+ position:relative
+}
+#PlayerOne.ui-enabled a[href]:after {
+ display:none;
+ position:absolute;
+ content:"";
+ top:-2px;
+ left:-4px;
+ bottom:-4px;
+ right:-2px;
+ border:2px solid #f1c21b;
+ box-shadow:0 0 2px 1px rgba(0,0,0,.2);
+ box-sizing:border-box
+}
+#PlayerOne.ui-enabled a[href].focus-visible {
+ outline:none
+}
+#PlayerOne.ui-enabled a[href].focus-visible:after {
+ display:block
+}
+#PlayerOne.ui-enabled a.close,
+#PlayerOne.ui-enabled button.bttn-link {
+ position:relative
+}
+#PlayerOne.ui-enabled a.close:after,
+#PlayerOne.ui-enabled button.bttn-link:after {
+ display:none;
+ position:absolute;
+ content:"";
+ top:0;
+ left:0;
+ bottom:0;
+ right:0;
+ border:2px solid #f1c21b;
+ box-shadow:0 0 2px 1px rgba(0,0,0,.2);
+ box-sizing:border-box
+}
+#PlayerOne.ui-enabled a.close.focus-visible,
+#PlayerOne.ui-enabled button.bttn-link.focus-visible {
+ outline:none
+}
+#PlayerOne.ui-enabled a.close.focus-visible:after,
+#PlayerOne.ui-enabled button.bttn-link.focus-visible:after {
+ display:block
+}
+@media screen and (max-width:320px) {
+ #PlayerOne.ui-enabled .btn,
+ #PlayerOne.ui-enabled button {
+  font-size:11px
+ }
+}
+#PlayerOne.ui-enabled.size-medium .btn,
+#PlayerOne.ui-enabled.size-medium button,
+#PlayerOne.ui-enabled.size-small .btn,
+#PlayerOne.ui-enabled.size-small button {
+ font-size:11px
+}
+#PlayerOne.ui-enabled:not(.user-is-tabbing) * {
+ outline:none
+}
+#PlayerOne.ui-enabled input+p,
+#PlayerOne.ui-enabled select+p,
+#PlayerOne.ui-enabled textarea+p {
+ margin-top:8px
+}
+#PlayerOne.ui-enabled input:focus,
+#PlayerOne.ui-enabled select:focus,
+#PlayerOne.ui-enabled textarea:focus {
+ box-shadow:inset 0 0 0 1px #fff
+}
+#PlayerOne.ui-enabled input.focus-visible,
+#PlayerOne.ui-enabled select.focus-visible,
+#PlayerOne.ui-enabled textarea.focus-visible {
+ box-shadow:inset 0 0 0 2px #f1c21b,0 0 2px 1px rgba(0,0,0,.2);
+ outline:none
+}
+#PlayerOne.ui-enabled input,
+#PlayerOne.ui-enabled select,
+#PlayerOne.ui-enabled textarea {
+ margin-top:12px
+}
+#PlayerOne.ui-enabled ::-webkit-input-placeholder {
+ color:#aaa
+}
+#PlayerOne.ui-enabled ::-moz-placeholder {
+ color:#aaa
+}
+#PlayerOne.ui-enabled :-ms-input-placeholder {
+ color:#aaa
+}
+#PlayerOne.ui-enabled.fullscreen-mode a,
+#PlayerOne.ui-enabled.fullscreen-mode button {
+ font-size:18.2px;
+ line-height:33.6px
+}
+#PlayerOne.ui-enabled.fullscreen-mode input[type=email],
+#PlayerOne.ui-enabled.fullscreen-mode input[type=password],
+#PlayerOne.ui-enabled.fullscreen-mode input[type=text]:not(#share_control_link_input),
+#PlayerOne.ui-enabled.fullscreen-mode textarea {
+ font-size:18.2px;
+ line-height:30.8px
+}
+#PlayerOne.ui-enabled.fullscreen-mode select {
+ font-size:18.2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .bttn:not(.trigger),
+#PlayerOne.ui-enabled.fullscreen-mode button:not(.trigger),
+#PlayerOne.ui-enabled.fullscreen-mode input,
+#PlayerOne.ui-enabled.fullscreen-mode input[type=email],
+#PlayerOne.ui-enabled.fullscreen-mode input[type=number],
+#PlayerOne.ui-enabled.fullscreen-mode input[type=password],
+#PlayerOne.ui-enabled.fullscreen-mode input[type=search],
+#PlayerOne.ui-enabled.fullscreen-mode input[type=tel],
+#PlayerOne.ui-enabled.fullscreen-mode input[type=text]:not(#share_control_link_input),
+#PlayerOne.ui-enabled.fullscreen-mode input[type=url],
+#PlayerOne.ui-enabled.fullscreen-mode select,
+#PlayerOne.ui-enabled.fullscreen-mode textarea {
+ min-height:44.8px
+}
+#PlayerOne.ui-enabled.fullscreen-mode textarea {
+ min-height:120.4px;
+ line-height:25.2px
+}
+#PlayerOne.ui-enabled input.error,
+#PlayerOne.ui-enabled select.error,
+#PlayerOne.ui-enabled textarea.error {
+ border:1px solid #fb4b53
+}
+#PlayerOne.ui-enabled p.error {
+ color:#fb4b53
+}
+#PlayerOne.ui-enabled .clickContainer {
+ background:#000;
+ opacity:0;
+ width:100%;
+ height:100%;
+ position:absolute;
+ z-index:1
+}
+#PlayerOne.ui-enabled #ComponentsContainer:after {
+ display:block;
+ position:absolute;
+ right:0;
+ bottom:0;
+ left:0;
+ margin:0 -20px;
+ content:" ";
+ opacity:0;
+ background:rgba(44,44,44,.9076) url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiPjxwYXRoIGZpbGwtb3BhY2l0eT0iLjUiIGQ9Ik0tMjAgMGg4bDI0IDI0SDR6TTAgMGg4bDI0IDI0aC04eiIvPjwvc3ZnPg==);
+ -webkit-animation:loading .3s linear infinite;
+ animation:loading .3s linear infinite;
+ height:0;
+ transition:opacity 0s,height .2s cubic-bezier(.075,.82,.165,1);
+ transition-delay:0s
+}
+#PlayerOne.ui-enabled #ComponentsContainer.buffering:after,
+#PlayerOne.ui-enabled #ComponentsContainer.loading:after {
+ height:8px;
+ opacity:1;
+ transition:opacity 0s,height .2s cubic-bezier(.075,.82,.165,1);
+ transition-delay:3s
+}
+#PlayerOne.ui-enabled #ComponentsContainer.loading:after {
+ transition:opacity 0s,height .2s cubic-bezier(.075,.82,.165,1);
+ transition-delay:0s
+}
+#PlayerOne.ui-enabled #ComponentsContainer.hovered:after {
+ display:none
+}
+#PlayerOne.ui-enabled #ComponentsContainer.hovered #bottomContainer {
+ opacity:1
+}
+#PlayerOne.ui-enabled #ComponentsContainer.hovered #topContainer {
+ background:-webkit-linear-gradient(rgba(0,0,0,.4),transparent);
+ background:-moz-linear-gradient(rgba(0,0,0,.4),transparent);
+ background:linear-gradient(rgba(0,0,0,.4),transparent)
+}
+#PlayerOne.ui-enabled #ComponentsContainer.hovered .title,
+#PlayerOne.ui-enabled #ComponentsContainer.hovered .viewerInfo.shown {
+ opacity:1;
+ display:flex;
+ align-items:center
+}
+#PlayerOne.ui-enabled #topContainer {
+ display:flex;
+ position:absolute;
+ padding:10px 16px;
+ top:0;
+ left:0;
+ z-index:2
+}
+#PlayerOne.ui-enabled #topControls {
+ display:inline-block
+}
+#PlayerOne.ui-enabled.autoplay-false #topContainer {
+ background:none
+}
+#PlayerOne.ui-enabled #ComponentsContainer:not(.hovered) #topPanelRight .component:not(.logo),
+#PlayerOne.ui-enabled #ComponentsContainer:not(.hovered) .viewer360__controls,
+#PlayerOne.ui-enabled.ios.ui-native #topContainer {
+ display:none
+}
+#PlayerOne.ui-enabled #topPanelLeft {
+ width:62%
+}
+#PlayerOne.ui-enabled #topPanelRight {
+ vertical-align:top
+}
+#PlayerOne.ui-enabled #bottomContainer {
+ position:absolute;
+ left:0;
+ bottom:0;
+ width:100%;
+ border-radius:0;
+ z-index:2;
+ opacity:0;
+ -webkit-transform:translateZ(0)
+}
+#PlayerOne.ui-enabled #controlsContainer {
+ display:flex;
+ white-space:nowrap
+}
+#PlayerOne.ui-enabled #controlsContainer .flex-fit {
+ flex:1 auto
+}
+#PlayerOne.ui-enabled #controlsContainer .flex-full {
+ flex:1 1 100%
+}
+#PlayerOne.ui-enabled #controlPanelLeft,
+#PlayerOne.ui-enabled #controlPanelRight {
+ flex:initial;
+ width:auto
+}
+#PlayerOne.ui-enabled #controlPanelRight .component {
+ transition:all .15s ease-in-out;
+ transition-delay:.1s
+}
+#PlayerOne.ui-enabled.autoplay-false #bottomContainer {
+ display:none
+}
+#PlayerOne.ui-enabled #middleContainer {
+ display:none;
+ position:absolute;
+ top:50%;
+ left:50%;
+ transform:translateX(-50%) translateY(-50%);
+ -webkit-transform:translateX(-50%) translateY(-50%)
+}
+#PlayerOne.ui-enabled #middleOverlay {
+ display:none;
+ opacity:0
+}
+#PlayerOne.ui-enabled.autoplay-false video::-webkit-media-controls,
+#PlayerOne.ui-enabled.autoplay-false video::-webkit-media-controls-start-playback-button {
+ display:none!important;
+ -webkit-appearance:none
+}
+#PlayerOne.ui-enabled.autoplay-false #bottomContainer,
+#PlayerOne.ui-enabled.autoplay-false #middleOverlay,
+#PlayerOne.ui-enabled.autoplay-false #topContainer .title,
+#PlayerOne.ui-enabled.autoplay-false #topContainer .viewerInfo {
+ opacity:0!important
+}
+#PlayerOne.ui-enabled.autoplay-false #topPanelRight .component:not(.logo) {
+ display:none
+}
+#PlayerOne.ui-enabled.screen-shown #topContainer,
+#PlayerOne.ui-enabled.slideshow #topContainer {
+ opacity:1;
+ z-index:100
+}
+#PlayerOne.ui-enabled.screen-shown #topContainer .title,
+#PlayerOne.ui-enabled.slideshow #topContainer .title {
+ opacity:1!important
+}
+#PlayerOne.ui-enabled.screen-shown #topContainer .viewerInfo,
+#PlayerOne.ui-enabled.slideshow #topContainer .viewerInfo,
+#PlayerOne.ui-enabled.ui-controls-hidden #bottomContainer,
+#PlayerOne.ui-enabled.ui-controls-hidden #LiveBadge,
+#PlayerOne.ui-enabled.ui-controls-hidden #middleOverlay,
+#PlayerOne.ui-enabled.ui-controls-hidden #NotificationContainer,
+#PlayerOne.ui-enabled.ui-controls-hidden #StatusAnimation,
+#PlayerOne.ui-enabled.ui-controls-hidden #topControls,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-big #bottomContainer,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-big #LiveBadge,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-big #middleOverlay,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-big #NotificationContainer,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-big #StatusAnimation,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-big #topControls,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-medium #bottomContainer,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-medium #LiveBadge,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-medium #middleOverlay,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-medium #NotificationContainer,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-medium #StatusAnimation,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-medium #topControls,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-small #bottomContainer,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-small #LiveBadge,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-small #middleOverlay,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-small #NotificationContainer,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-small #StatusAnimation,
+#PlayerOne.ui-enabled.ui-controls-hidden.size-small #topControls,
+#PlayerOne.ui-enabled.ui-enabled.ui-hidden #ComponentsContainer .component,
+#PlayerOne.ui-enabled.ui-enabled.ui-hidden #EmbedViewer .cover,
+#PlayerOne.ui-enabled.ui-enabled.ui-hidden.site-mode #ComponentsContainer .component,
+#PlayerOne.ui-enabled.ui-enabled.ui-hidden.site-mode #EmbedViewer .cover,
+#PlayerOne.ui-enabled.ui-enabled.ui-hidden.site-mode.size-big #ComponentsContainer .component,
+#PlayerOne.ui-enabled.ui-enabled.ui-hidden.site-mode.size-big #EmbedViewer .cover,
+#PlayerOne.ui-enabled.ui-enabled.ui-hidden.site-mode.size-medium #ComponentsContainer .component,
+#PlayerOne.ui-enabled.ui-enabled.ui-hidden.site-mode.size-medium #EmbedViewer .cover,
+#PlayerOne.ui-enabled.ui-enabled.ui-hidden.site-mode.size-small #ComponentsContainer .component,
+#PlayerOne.ui-enabled.ui-enabled.ui-hidden.site-mode.size-small #EmbedViewer .cover,
+#PlayerOne.ui-enabled.ui-enabled:not(.content-available) #bottomContainer,
+#PlayerOne.ui-enabled.ui-enabled:not(.content-available) #middleOverlay,
+#PlayerOne.ui-enabled.ui-enabled:not(.content-available) #topContainer,
+#PlayerOne.ui-enabled.ui-hidden #ComponentsContainer .component,
+#PlayerOne.ui-enabled.ui-hidden #EmbedViewer .cover {
+ display:none
+}
+@media screen and (max-width:240px) {
+ #PlayerOne.ui-enabled #ComponentsContainer.hovered:after {
+  display:block
+ }
+}
+#PlayerOne.ui-enabled.size-small #ComponentsContainer.hovered:after {
+ display:block
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled #topPanelLeft {
+  width:auto
+ }
+ #PlayerOne.ui-enabled #topPanelRight {
+  flex:1;
+  width:auto
+ }
+}
+#PlayerOne.ui-enabled.size-big #topPanelLeft,
+#PlayerOne.ui-enabled.size-medium #topPanelLeft,
+#PlayerOne.ui-enabled.size-small #topPanelLeft {
+ width:auto
+}
+#PlayerOne.ui-enabled.size-big #topPanelRight,
+#PlayerOne.ui-enabled.size-medium #topPanelRight,
+#PlayerOne.ui-enabled.size-small #topPanelRight {
+ flex:1;
+ width:auto
+}
+#PlayerOne.ui-enabled .flex {
+ display:flex
+}
+#PlayerOne.ui-enabled .component label {
+ display:none
+}
+#PlayerOne.ui-enabled .overflow-popover label {
+ display:inline-block
+}
+#PlayerOne.ui-enabled .off-screen {
+ border:0;
+ clip:rect(0 0 0 0);
+ margin:-1px;
+ overflow:hidden;
+ padding:0;
+ width:1px;
+ position:absolute
+}
+#PlayerOne.ui-enabled.fullscreen-mode #controlPanelLeft svg {
+ width:61.6px
+}
+#PlayerOne.ui-enabled .seekbar.component {
+ overflow:hidden;
+ position:relative;
+ box-sizing:border-box;
+ width:100%;
+ height:32px;
+ margin:0;
+ cursor:default;
+ background:hsla(0,0%,100%,0);
+ font-size:1.1em;
+ color:#fff;
+ line-height:32px;
+ transition:all .1s ease-in-out;
+ user-select:none
+}
+#PlayerOne.ui-enabled .seekbar.component:after {
+ display:none;
+ position:absolute;
+ content:"";
+ top:0;
+ left:0;
+ bottom:0;
+ right:0;
+ border:2px solid #f1c21b;
+ box-shadow:0 0 2px 1px rgba(0,0,0,.2);
+ box-sizing:border-box
+}
+#PlayerOne.ui-enabled .seekbar.component.focus-visible {
+ outline:none
+}
+#PlayerOne.ui-enabled .seekbar.component.focus-visible:after {
+ display:block
+}
+#PlayerOne.ui-enabled .seekbar.component .videoComponent {
+ display:none
+}
+#PlayerOne.ui-enabled .seekbar.component.video {
+ cursor:pointer;
+ background:hsla(0,0%,100%,.2);
+ padding:0
+}
+#PlayerOne.ui-enabled .seekbar.component.video .videoComponent {
+ display:block
+}
+#PlayerOne.ui-enabled .seekbar.component .loadingBar {
+ display:block;
+ position:absolute;
+ right:0;
+ bottom:0;
+ left:0;
+ overflow:hidden;
+ height:100%
+}
+#PlayerOne.ui-enabled .seekbar.component .loadingBar:after {
+ display:block;
+ position:absolute;
+ right:0;
+ bottom:0;
+ left:0;
+ margin:0 -20px;
+ content:" ";
+ opacity:0;
+ background:rgba(44,44,44,.9076) url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB3aWR0aD0iMjAiIGhlaWdodD0iMjAiPjxwYXRoIGZpbGwtb3BhY2l0eT0iLjUiIGQ9Ik0tMjAgMGg4bDI0IDI0SDR6TTAgMGg4bDI0IDI0aC04eiIvPjwvc3ZnPg==);
+ -webkit-animation:loading .3s linear infinite;
+ animation:loading .3s linear infinite;
+ height:100%;
+ transition:opacity 0s;
+ transition-delay:0s
+}
+#PlayerOne.ui-enabled .seekbar.component .progress {
+ position:absolute;
+ top:0;
+ left:0;
+ height:100%;
+ background:hsla(0,0%,100%,.2);
+ width:0;
+ -webkit-transform:translateZ(0)
+}
+#PlayerOne.ui-enabled .seekbar.component .seekProgress {
+ background:none;
+ width:0
+}
+#PlayerOne.ui-enabled .seekbar.component .seekProgress .knob {
+ position:absolute;
+ right:0;
+ width:2px;
+ height:100%;
+ background:#fff
+}
+#PlayerOne.ui-enabled .seekbar.component .length,
+#PlayerOne.ui-enabled .seekbar.component .seekLength {
+ position:absolute;
+ top:0;
+ right:0;
+ text-align:right;
+ margin:0 10px;
+ text-shadow:0 0 3px rgba(0,0,0,.4);
+ opacity:1
+}
+#PlayerOne.ui-enabled .seekbar.component .length.firstProgressText,
+#PlayerOne.ui-enabled .seekbar.component .seekLength.firstProgressText {
+ left:0;
+ right:auto
+}
+#PlayerOne.ui-enabled .seekbar.component .length.covered,
+#PlayerOne.ui-enabled .seekbar.component .seekLength.covered {
+ opacity:0
+}
+#PlayerOne.ui-enabled .seekbar.component .videoProgressLength.firstProgressText {
+ left:0;
+ right:auto
+}
+#PlayerOne.ui-enabled #ComponentsContainer.buffering .seekbar.component .loadingBar:after,
+#PlayerOne.ui-enabled #ComponentsContainer.loading .seekbar.component .loadingBar:after {
+ opacity:1;
+ transition:opacity 0s;
+ transition-delay:3s
+}
+#PlayerOne.ui-enabled #ComponentsContainer.loading .seekbar.component .loadingBar:after {
+ transition:opacity 0s;
+ transition-delay:0s
+}
+#PlayerOne.ui-enabled.fullscreen-mode .seekbar.component {
+ width:100%;
+ height:44.8px;
+ line-height:44.8px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .seekbar.component .loading:after {
+ margin-left:-28px;
+ background-size:contain
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled .seekbar.component {
+  display:none;
+  position:relative;
+  width:100%;
+  height:32px
+ }
+ #PlayerOne.ui-enabled.fullscreen-mode .seekbar.component {
+  height:44.8px;
+  padding:0
+ }
+ #PlayerOne.ui-enabled:not(.advert-shown) #ComponentsContainer.hovered.buffering .seekbar.component,
+ #PlayerOne.ui-enabled:not(.advert-shown) #ComponentsContainer.hovered.loading .seekbar.component,
+ #PlayerOne.ui-enabled:not(.advert-shown) #ComponentsContainer.hovered .seekbar.component.video {
+  display:block
+ }
+}
+#PlayerOne.ui-enabled.size-big .seekbar.component,
+#PlayerOne.ui-enabled.size-medium .seekbar.component,
+#PlayerOne.ui-enabled.size-small .seekbar.component {
+ display:none;
+ position:relative;
+ width:100%;
+ height:32px
+}
+#PlayerOne.ui-enabled.size-big.fullscreen-mode .seekbar.component,
+#PlayerOne.ui-enabled.size-medium.fullscreen-mode .seekbar.component,
+#PlayerOne.ui-enabled.size-small.fullscreen-mode .seekbar.component {
+ height:44.8px;
+ padding:0
+}
+#PlayerOne.ui-enabled.size-big:not(.advert-shown) #ComponentsContainer.hovered.buffering .seekbar.component,
+#PlayerOne.ui-enabled.size-big:not(.advert-shown) #ComponentsContainer.hovered.loading .seekbar.component,
+#PlayerOne.ui-enabled.size-big:not(.advert-shown) #ComponentsContainer.hovered .seekbar.component.video,
+#PlayerOne.ui-enabled.size-medium:not(.advert-shown) #ComponentsContainer.hovered.buffering .seekbar.component,
+#PlayerOne.ui-enabled.size-medium:not(.advert-shown) #ComponentsContainer.hovered.loading .seekbar.component,
+#PlayerOne.ui-enabled.size-medium:not(.advert-shown) #ComponentsContainer.hovered .seekbar.component.video,
+#PlayerOne.ui-enabled.size-small:not(.advert-shown) #ComponentsContainer.hovered.buffering .seekbar.component,
+#PlayerOne.ui-enabled.size-small:not(.advert-shown) #ComponentsContainer.hovered.loading .seekbar.component,
+#PlayerOne.ui-enabled.size-small:not(.advert-shown) #ComponentsContainer.hovered .seekbar.component.video {
+ display:block
+}
+@media screen and (max-width:240px) {
+ #PlayerOne.ui-enabled .seekbar.component {
+  display:none
+ }
+}
+#PlayerOne.ui-enabled.size-small .seekbar.component {
+ display:none
+}
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open .captionSearchMarkerContainer {
+ display:block;
+ height:100%;
+ width:100%;
+ position:absolute;
+ left:0;
+ top:0
+}
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open .caption-search-marker {
+ background-color:#539eec;
+ width:1px;
+ height:100%;
+ position:absolute
+}
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open .caption-search-marker.active-marker {
+ width:2px;
+ background-color:#ffb400
+}
+#PlayerOne.ui-enabled .screen-container {
+ display:flex;
+ background-color:#171717;
+ position:absolute;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ align-items:center;
+ justify-content:center;
+ z-index:1
+}
+#PlayerOne.ui-enabled .screen-container.screen-container.inline {
+ z-index:0
+}
+#PlayerOne.ui-enabled .screen-container:after {
+ content:"";
+ background:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NDAiIGhlaWdodD0iMzYwIj48cGF0aCBmaWxsPSIjMTYxNjE2IiBkPSJNMCAwaDY0MHYzNjBIMHoiLz48ZyBvcGFjaXR5PSIuMyIgZmlsbD0iI0ZGRiI+PHBhdGggb3BhY2l0eT0iLjIiIGQ9Ik00NDcuOCAxNDguOGw2My43IDM1NS40IDg1LjgtMzk2eiIvPjxwYXRoIG9wYWNpdHk9Ii4xIiBkPSJNNDQ3LjggMTQ4LjhsMTQ5LjUtNDAuNi02Mi43LTMzLjR6TTQ0Ny44IDE0OC44bDYzLjcgMzU1LjQtMjI1LjkgMTE4LjV6TTQyMC4zLTVMMjUzLjkgMTAxLjRsLTM0LjMtMjEyLjV6Ii8+PHBhdGggb3BhY2l0eT0iLjIiIGQ9Ik0zOTAuOSAzMTVsNTYuOS0xNjYuMi0xOTMuOS00Ny40eiIvPjxwYXRoIG9wYWNpdHk9Ii4xIiBkPSJNNTYxLjggMjcyLjFsMTI4LjcgMjk4LjEtMTc5LTY2eiIvPjxwYXRoIG9wYWNpdHk9Ii4xIiBkPSJNNjkwLjUgNTcwLjJsLTMwLjYtNzEtMTQ4LjQgNXoiLz48cGF0aCBvcGFjaXR5PSIuMiIgZD0iTTY1OS45IDQ5OS4ybDY3LjQtMTI5LjMtMTY1LjUtOTcuOHoiLz48cGF0aCBvcGFjaXR5PSIuMSIgZD0iTTcyNy4zIDM2OS45bC0xMzAtMjYxLjctMzUuNSAxNjMuOXoiLz48cGF0aCBvcGFjaXR5PSIuMiIgZD0iTTU5Ny4zIDEwOC4ybDIyNi45IDQzLjQtOTYuOSAyMTguM3pNMTg3LjcgMjk4LjhsLTE0LjEgMTk2LjcgMTcxLTQ1LjF6Ii8+PHBhdGggb3BhY2l0eT0iLjEiIGQ9Ik0xNzMuNiA0OTUuNWwxNzEtNDUuMS01OSAxNzIuM3pNMjUzLjkgMTAxLjRsLTg2LjQgMTAwLjEgMTgzLjkgNTJ6TTM1MS40IDI1My41bC0xNjMuNyA0NS4zTDM5MC45IDMxNXoiLz48cGF0aCBvcGFjaXR5PSIuMiIgZD0iTTI1My45IDEwMS40bC0xNDYtMjMuNSAxMTEuNy0xODl6TTEwNy45IDc3LjlMLTEzOS41IDU1bDgzLjctNDguNHoiLz48cGF0aCBvcGFjaXR5PSIuMSIgZD0iTTEwNy45IDc3LjlMLTEzOS41IDU1bDg2LjIgMTk4LjR6TTExOS0xNzFMLTYuNS0xODEgNzIuMi0zNi44eiIvPjxwYXRoIG9wYWNpdHk9Ii4xIiBkPSJNNzIuMi0zNi44bC0xMjggNDMuNCAxNjMuNyA3MS4zeiIvPjxwYXRoIG9wYWNpdHk9Ii4xIiBkPSJNLTYuNS0xODFMLTI4MS4yIDYuNmgyMjUuNHoiLz48cGF0aCBvcGFjaXR5PSIuMiIgZD0iTS02LjUtMTgxTC01NS44IDYuNmwxMjgtNDMuNHpNLTYuNS0xODFsLTI0NyA1Mi40LTI3LjcgMTM1LjJ6Ii8+PHBhdGggb3BhY2l0eT0iLjEiIGQ9Ik03Mi4yLTM2LjhsMzUuNyAxMTQuNyAzNy02Mi41IDc0LjctMTI2LjV6Ii8+PHBhdGggb3BhY2l0eT0iLjIiIGQ9Ik0tNi41LTE4MWwtMjQ3IDUyLjQgMTAxLTEyMy41eiIvPjxwYXRoIG9wYWNpdHk9Ii4xIiBkPSJNLTE1Mi41LTI1Mi4xbC0xMDEgMTIzLjUgMzAuMS0yNTUuM3pNLTg1LjctMjkyLjdMLTYuNS0xODFsLTE0Ni03MS4xeiIvPjxwYXRoIG9wYWNpdHk9Ii4yIiBkPSJNMTY3LjUgMjAxLjVsLTIyMC44IDUxLjlMMTA3LjkgNzcuOXpNLTE5LjYgNDQ0LjNsLTEzNi43LTEyMS43IDEwMy02OS4yek0tODcgNTY2bC0xNDctMjE0LjIgNzcuNy0yOS4yeiIvPjxwYXRoIG9wYWNpdHk9Ii4xIiBkPSJNLTg3IDU2NmwtMjE1LjQtMjcuOSA2OC40LTE4Ni4zek0tMTkuNiA0NDQuM0wtODcgNTY2bC02OS4zLTI0My40ek0tMTM5LjUgNTVsLTc4LjUgNjkuMi02My4yLTExNy42eiIvPjxwYXRoIG9wYWNpdHk9Ii4yIiBkPSJNLTE1Ni4zIDMyMi42bC0xODQuNS0yOS44TC0yMTggMTI0LjJ6Ii8+PHBhdGggb3BhY2l0eT0iLjEiIGQ9Ik0tNTMuMyAyNTMuNGwtMTAzIDY5LjItNjEuNy0xOTguNHoiLz48cGF0aCBvcGFjaXR5PSIuMiIgZD0iTTE3OS45IDQwNy4xbC0xOTkuNSAzNy4yIDE2MC45LTE3NC45ek0xNzMuNiA0OTUuNUwtODcgNTY2bDY3LjQtMTIxLjd6Ii8+PHBhdGggb3BhY2l0eT0iLjEiIGQ9Ik0xNzkuOSA0MDcuMWwtNi4zIDg4LjQtMTkzLjItNTEuMnoiLz48cGF0aCBvcGFjaXR5PSIuMiIgZD0iTTM1MS40IDI1My41bC0xNjMuNyA0NS4zLTIwLjItOTcuM3oiLz48cGF0aCBvcGFjaXR5PSIuMSIgZD0iTTE2Ny41IDIwMS41bDIwLjIgOTcuMy00Ni40LTI5LjR6Ii8+PHBhdGggb3BhY2l0eT0iLjEiIGQ9Ik0tNTMuMyAyNTMuNGwxOTQuNiAxNi0xNjAuOSAxNzQuOXpNMjUzLjkgMTAxLjRsLTg2LjQgMTAwLjEtNTkuNi0xMjMuNnoiLz48cGF0aCBvcGFjaXR5PSIuMiIgZD0iTTUzNC42IDc0LjhsLTg2LjggNzRMNDIwLjMtNXoiLz48cGF0aCBvcGFjaXR5PSIuMSIgZD0iTTQ0Ny4zLTE0NS40bDg3LjMgMjIwLjJMNDIwLjMtNXoiLz48cGF0aCBvcGFjaXR5PSIuMiIgZD0iTTIxOS42LTExMS4xTDQyMC4zLTVsMjctMTQwLjR6Ii8+PHBhdGggb3BhY2l0eT0iLjEiIGQ9Ik0yMTkuNi0xMTEuMWwyMjcuNy0zNC4zLTg4LjQtNDguNnpNMzQ0LjYgNDUwLjRsMTY2LjkgNTMuOC0yMjUuOSAxMTguNXpNNjU5LjkgNDk5LjJsMzAuNiA3MSA3OC45LTY1LjN6TTcyNy4zIDM2OS45bDQyLjEgMTM1TDgwMCAyMDYuMXoiLz48cGF0aCBvcGFjaXR5PSIuMiIgZD0iTTYyNi4zIDE1LjRMNTg1LjktODhsMTgyLjIgMjB6Ii8+PHBhdGggb3BhY2l0eT0iLjEiIGQ9Ik01OTcuMyAxMDguMmwyOS05Mi44IDE5Ny45IDEzNi4yek01ODUuOS04OGwxMzQuOC0xNDkuOEw3NjguMS02OHoiLz48cGF0aCBvcGFjaXR5PSIuMiIgZD0iTTU4NS45LTg4bC0xMi0yMzMuOCAxNDYuOCA4NHpNNTM0LjYgNzQuOEw1ODUuOS04OGwtMTM4LjYtNTcuNHoiLz48cGF0aCBvcGFjaXR5PSIuMSIgZD0iTTUzNC42IDc0LjhsOTEuNy01OS40TDU4NS45LTg4ek01ODUuOS04OGwtMTM4LjYtNTcuNCAxMjYuNi0xNzYuNHoiLz48L2c+PC9zdmc+) no-repeat;
+ background-size:cover;
+ opacity:.6;
+ top:0;
+ left:0;
+ bottom:0;
+ right:0;
+ position:absolute;
+ z-index:-1
+}
+#PlayerOne.ui-enabled .screen-container .main-icon {
+ width:64px;
+ height:64px;
+ margin-bottom:4px;
+ margin-left:auto;
+ margin-right:auto
+}
+#PlayerOne.ui-enabled .screen-container .screen-content {
+ width:360px
+}
+#PlayerOne.ui-enabled .screen-container .screen-content.center {
+ text-align:center
+}
+#PlayerOne.ui-enabled .screen-container .screen-content:before {
+ display:none
+}
+#PlayerOne.ui-enabled.fullscreen-mode #ScreensContainer .screen-container .screen-content>p {
+ font-weight:300;
+ font-size:24px;
+ line-height:100%
+}
+#PlayerOne.ui-enabled #Password .pw-label {
+ display:none;
+ text-align:center
+}
+#PlayerOne.ui-enabled #Password .pwfield-and-button {
+ display:inline-flex;
+ width:100%
+}
+#PlayerOne.ui-enabled #Password .pwfield-and-button .input-bg {
+ flex-grow:1;
+ margin-right:8px
+}
+@media screen and (max-width:320px) {
+ #PlayerOne.ui-enabled #Password .pwfield-and-button {
+  display:block
+ }
+ #PlayerOne.ui-enabled #Password .pwfield-and-button .input-bg {
+  margin:5px 0
+ }
+ #PlayerOne.ui-enabled #ScreensContainer .screen-container .screen-content>p {
+  font-weight:300;
+  font-size:14px
+ }
+}
+#PlayerOne.ui-enabled.size-medium #Password .pwfield-and-button,
+#PlayerOne.ui-enabled.size-small #Password .pwfield-and-button {
+ display:block
+}
+#PlayerOne.ui-enabled.size-medium #Password .pwfield-and-button .input-bg,
+#PlayerOne.ui-enabled.size-small #Password .pwfield-and-button .input-bg {
+ margin:5px 0
+}
+#PlayerOne.ui-enabled.size-medium #ScreensContainer .screen-container .screen-content>p,
+#PlayerOne.ui-enabled.size-small #ScreensContainer .screen-container .screen-content>p {
+ font-weight:300;
+ font-size:14px
+}
+@media screen and (max-width:240px) {
+ #PlayerOne.ui-enabled #Password .pwfield-and-button,
+ #PlayerOne.ui-enabled #Password>p {
+  display:none
+ }
+ #PlayerOne.ui-enabled #Password .pw-label {
+  display:block
+ }
+}
+#PlayerOne.ui-enabled.size-small #Password .pwfield-and-button,
+#PlayerOne.ui-enabled.size-small #Password>p {
+ display:none
+}
+#PlayerOne.ui-enabled.size-small #Password .pw-label {
+ display:block
+}
+#PlayerOne.ui-enabled .overlay-container {
+ display:none;
+ position:absolute;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ color:#fff;
+ background:hsla(0,0%,9%,.9);
+ z-index:20;
+ overflow-y:auto
+}
+#PlayerOne.ui-enabled .overlay-container:after,
+#PlayerOne.ui-enabled .overlay-container:before {
+ display:block;
+ content:"";
+ flex:1 0 100px
+}
+#PlayerOne.ui-enabled .overlay-container.focus-visible {
+ box-shadow:inset 0 0 0 2px #f1c21b,0 0 2px 1px rgba(0,0,0,.2);
+ outline:none
+}
+#PlayerOne.ui-enabled .overlay-container .close {
+ position:absolute
+}
+#PlayerOne.ui-enabled .overlay-container.shown {
+ display:flex;
+ flex-direction:column
+}
+#PlayerOne.ui-enabled .overlay-container .cancel {
+ color:#0062ff;
+ cursor:pointer;
+ margin-left:10px
+}
+#PlayerOne.ui-enabled .overlay-container .overlay-content {
+ max-width:90%;
+ width:360px;
+ margin:0 auto
+}
+#PlayerOne.ui-enabled .overlay-container .overlay-content.wide {
+ width:480px
+}
+#PlayerOne.ui-enabled .overlay-container .overlay-content p {
+ margin-bottom:8px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .overlay-container .close {
+ top:16px;
+ right:16px;
+ width:44.8px;
+ height:44.8px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .overlay-container .overlay-content {
+ width:480px
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled .overlay-content {
+  margin-top:15px
+ }
+}
+#PlayerOne.ui-enabled.size-big .overlay-content,
+#PlayerOne.ui-enabled.size-medium .overlay-content,
+#PlayerOne.ui-enabled.size-small .overlay-content {
+ margin-top:15px
+}
+#PlayerOne.ui-enabled .list {
+ margin:4px 0;
+ padding:0;
+ list-style:none;
+ text-align:left;
+ color:#fff
+}
+#PlayerOne.ui-enabled .list.triggerList>div.component {
+ display:block;
+ width:auto;
+ min-width:24px
+}
+#PlayerOne.ui-enabled .list.triggerList button {
+ padding:0
+}
+#PlayerOne.ui-enabled .list.triggerList label {
+ cursor:pointer;
+ vertical-align:middle
+}
+#PlayerOne.ui-enabled .list button {
+ display:block;
+ min-height:28px;
+ line-height:28px;
+ cursor:pointer;
+ padding:0 18px 0 34px;
+ overflow:hidden;
+ text-overflow:ellipsis;
+ white-space:nowrap;
+ width:100%;
+ text-align:left;
+ color:hsla(0,0%,100%,.8)
+}
+#PlayerOne.ui-enabled .list button:hover {
+ background:hsla(0,0%,100%,.2);
+ color:#fff
+}
+#PlayerOne.ui-enabled .list button:hover button {
+ color:#fff
+}
+#PlayerOne.ui-enabled .list button.active {
+ position:relative;
+ background:#0062ff;
+ font-weight:600
+}
+#PlayerOne.ui-enabled .list button button {
+ color:hsla(0,0%,100%,.8);
+ text-decoration:none
+}
+#PlayerOne.ui-enabled .list button label {
+ line-height:28px;
+ color:#fff
+}
+#PlayerOne.ui-enabled .list.select button {
+ white-space:nowrap
+}
+#PlayerOne.ui-enabled .list.select button.active {
+ position:relative;
+ background:#0062ff;
+ font-weight:600
+}
+#PlayerOne.ui-enabled .list.select button.active:before {
+ display:block;
+ position:absolute;
+ content:"";
+ background:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiPjxwYXRoIGQ9Ik0xNi43MDggMTAuNjgzbC00LjkwNiA0LjkwNmMtLjAzMy4wNDctLjA1Mi4xLS4wOTQuMTQyYS45OTkuOTk5IDAgMDEtMS40MTQgMGwtLjAyNC0uMDI0aC0uMDAxbC0xLjk5OS0yYS45OTkuOTk5IDAgMTExLjQxNC0xLjQxNGwxLjI5MyAxLjI5MyA0LjMxNy00LjMxN2ExIDEgMCAwMTEuNDE0IDEuNDE0eiIgY2xhc3M9ImNscy00IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9IiNmZmYiLz48L3N2Zz4=);
+ background-size:contain;
+ background-repeat:no-repeat
+}
+#PlayerOne.ui-enabled .list.select button.active:before,
+#PlayerOne.ui-enabled .list i {
+ top:2px;
+ left:4px;
+ width:24px;
+ height:24px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .list.select button.active:before,
+#PlayerOne.ui-enabled.fullscreen-mode .list i {
+ top:2.8px;
+ left:5.6px;
+ width:33.6px;
+ height:33.6px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .list button {
+ min-height:39.2px;
+ line-height:39.2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .list:not(.triggerList) button {
+ padding:0 25.2px 0 47.6px
+}
+@media screen and (max-width:320px) {
+ #PlayerOne.ui-enabled .list {
+  max-width:182px;
+  margin-top:10px
+ }
+}
+#PlayerOne.ui-enabled.size-medium .list,
+#PlayerOne.ui-enabled.size-small .list {
+ max-width:182px;
+ margin-top:10px
+}
+#PlayerOne.ui-enabled .popover-container {
+ font-size:13px;
+ position:absolute;
+ z-index:auto;
+ text-overflow:ellipsis;
+ white-space:nowrap
+}
+#PlayerOne.ui-enabled .popover-container .close {
+ display:none
+}
+#PlayerOne.ui-enabled .popover-container.close-visible .close {
+ top:0;
+ right:0;
+ width:20px;
+ height:20px;
+ display:block
+}
+#PlayerOne.ui-enabled .popover-container.opened .popover {
+ display:block;
+ transition:transform .2s ease-in-out,opacity .1s ease-in-out;
+ -webkit-transition:-webkit-transform .2s ease-in-out,opacity .1s ease-in-out
+}
+#PlayerOne.ui-enabled .popover-container.animated .popover {
+ opacity:1;
+ visibility:visible;
+ transform:translateY(0)
+}
+#PlayerOne.ui-enabled .popover-container.volume-popover .popover .popover-content {
+ overflow-y:initial
+}
+#PlayerOne.ui-enabled .popover-container .popover {
+ z-index:15;
+ padding:0;
+ background:rgba(22,22,22,.8);
+ position:absolute;
+ display:none;
+ left:50%;
+ min-width:0;
+ border:0;
+ border-radius:0;
+ margin:0;
+ opacity:0;
+ visibility:hidden;
+ transform:translateY(10%);
+ -webkit-transform:translateY(10%);
+ transition:transform .1s ease-in-out,opacity .2s ease-in-out;
+ -webkit-transition:-webkit-transform .1s ease-in-out,opacity .2s ease-in-out
+}
+#PlayerOne.ui-enabled .popover-container .popover .popover-content {
+ padding:0;
+ overflow-y:auto
+}
+#PlayerOne.ui-enabled .popover-container .popover .popover-arrow {
+ position:absolute;
+ left:0;
+ margin-left:-4px;
+ width:0;
+ height:0;
+ display:block;
+ border-left:4px solid transparent;
+ border-right:4px solid transparent
+}
+#PlayerOne.ui-enabled .popover-container .popover>label {
+ color:#fff;
+ padding-left:20px;
+ padding-right:20px;
+ height:28px;
+ line-height:28px;
+ margin:4px 0;
+ display:block
+}
+#PlayerOne.ui-enabled .popover-container.bottom .popover-arrow {
+ border-bottom:4px solid hsla(0,0%,9%,.9);
+ top:-4px
+}
+#PlayerOne.ui-enabled .popover-container.top .popover-arrow {
+ border-top:4px solid hsla(0,0%,9%,.9)
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled .popover-container.opened {
+  width:100%;
+  height:100%;
+  overflow-y:auto
+ }
+ #PlayerOne.ui-enabled .popover-container.opened .close {
+  display:block
+ }
+ #PlayerOne.ui-enabled .popover-container.opened .popover {
+  box-shadow:none;
+  background:transparent!important;
+  top:50%;
+  left:50%!important;
+  transform:translateX(-50%) translateY(-50%)!important;
+  max-height:100%
+ }
+ #PlayerOne.ui-enabled.popover-opened:before {
+  content:"";
+  position:absolute;
+  top:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+  background-color:rgba(22,22,22,.9);
+  z-index:11
+ }
+}
+#PlayerOne.ui-enabled.size-big .popover-container.opened,
+#PlayerOne.ui-enabled.size-medium .popover-container.opened,
+#PlayerOne.ui-enabled.size-small .popover-container.opened {
+ width:100%;
+ height:100%;
+ overflow-y:auto
+}
+#PlayerOne.ui-enabled.size-big .popover-container.opened .close,
+#PlayerOne.ui-enabled.size-medium .popover-container.opened .close,
+#PlayerOne.ui-enabled.size-small .popover-container.opened .close {
+ display:block
+}
+#PlayerOne.ui-enabled.size-big .popover-container.opened .popover,
+#PlayerOne.ui-enabled.size-medium .popover-container.opened .popover,
+#PlayerOne.ui-enabled.size-small .popover-container.opened .popover {
+ box-shadow:none;
+ background:transparent!important;
+ top:50%;
+ left:50%!important;
+ transform:translateX(-50%) translateY(-50%)!important;
+ max-height:100%
+}
+#PlayerOne.ui-enabled.size-big.popover-opened:before,
+#PlayerOne.ui-enabled.size-medium.popover-opened:before,
+#PlayerOne.ui-enabled.size-small.popover-opened:before {
+ content:"";
+ position:absolute;
+ top:0;
+ bottom:0;
+ width:100%;
+ height:100%;
+ background-color:rgba(22,22,22,.9);
+ z-index:11
+}
+#PlayerOne.ui-enabled.fullscreen-mode .popover-container,
+#PlayerOne.ui-enabled.fullscreen-mode .popover-container button,
+#PlayerOne.ui-enabled.fullscreen-mode .popover-container label {
+ font-size:18.2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .popover-container .popover>label {
+ padding:0 28px;
+ height:39.2px;
+ line-height:39.2px;
+ margin:5.6px 0;
+ font-size:18.2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .popover-container.close-visible .close {
+ width:28px;
+ height:28px
+}
+#PlayerOne.ui-enabled .adHolder.component {
+ position:absolute;
+ display:none;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ overflow:hidden;
+ margin:0;
+ padding:0;
+ background-repeat:no-repeat;
+ background-size:contain;
+ background-position:50%;
+ z-index:2;
+ background-color:#000
+}
+#PlayerOne.ui-enabled .adHolder.component.shown {
+ display:block;
+ background-color:transparent
+}
+#PlayerOne.ui-enabled.html-playback.advert-shown .adHolder.component {
+ display:block!important
+}
+#PlayerOne.ui-enabled.fullscreen-mode .adHolder.component {
+ width:100%;
+ height:100%
+}
+#PlayerOne.ui-enabled #AudioOnly {
+ position:absolute;
+ display:block;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ background:transparent;
+ background-size:100%;
+ background-size:cover;
+ overflow:hidden;
+ margin:0;
+ padding:0;
+ cursor:inherit;
+ -webkit-user-select:none;
+ user-select:none
+}
+#PlayerOne.ui-enabled #AudioOnly .icon {
+ position:absolute;
+ top:50%;
+ left:50%;
+ transform:translate(-50%,-50%)
+}
+#PlayerOne.ui-enabled #AudioOnly .icon svg {
+ display:block;
+ width:50px;
+ height:50px;
+ margin:0 auto;
+ opacity:1;
+ -webkit-filter:none!important;
+ filter:none!important
+}
+#PlayerOne.ui-enabled #AudioOnly .icon span {
+ display:block;
+ font-size:15px;
+ font-weight:600;
+ margin-top:10px;
+ cursor:default
+}
+#PlayerOne.ui-enabled .play.component {
+ background:#0062ff
+}
+#PlayerOne.ui-enabled .play.component svg {
+ opacity:1
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled .play.component {
+  background:none
+ }
+}
+#PlayerOne.ui-enabled.size-big .play.component,
+#PlayerOne.ui-enabled.size-medium .play.component,
+#PlayerOne.ui-enabled.size-small .play.component {
+ background:none
+}
+#PlayerOne.ui-enabled .playScreen.component {
+ position:absolute;
+ z-index:10;
+ padding:0;
+ display:block;
+ opacity:.8;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ background:-webkit-linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.6));
+ background:-moz-linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.6));
+ background:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.6))
+}
+#PlayerOne.ui-enabled .playScreen.component svg {
+ width:94px;
+ height:94px;
+ -webkit-filter:none!important;
+ filter:none!important
+}
+#PlayerOne.ui-enabled .playScreen.component .play-icon svg,
+#PlayerOne.ui-enabled .playScreen.component:hover {
+ opacity:1
+}
+#PlayerOne.ui-enabled .playScreen.component .play-icon {
+ width:94px;
+ height:94px;
+ position:absolute;
+ top:50%;
+ left:50%;
+ margin-top:-47px;
+ margin-left:-47px
+}
+#PlayerOne.ui-enabled .playScreen.component .title {
+ opacity:1;
+ display:block;
+ position:absolute;
+ left:0;
+ bottom:40px;
+ font-size:18px;
+ line-height:22px;
+ font-weight:600;
+ padding:0 20px;
+ width:100%;
+ -webkit-box-sizing:border-box;
+ -moz-box-sizing:border-box;
+ box-sizing:border-box
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled .playScreen.component .title {
+  font-size:14px;
+  bottom:20px
+ }
+}
+#PlayerOne.ui-enabled.size-big .playScreen.component .title,
+#PlayerOne.ui-enabled.size-medium .playScreen.component .title,
+#PlayerOne.ui-enabled.size-small .playScreen.component .title {
+ font-size:14px;
+ bottom:20px
+}
+@media screen and (max-width:320px) {
+ #PlayerOne.ui-enabled .playScreen.component .title,
+ #PlayerOne.ui-enabled .playScreen.component .viewerInfo {
+  display:none!important
+ }
+ #PlayerOne.ui-enabled .playScreen.component .play-icon,
+ #PlayerOne.ui-enabled .playScreen.component .play-icon svg {
+  width:64px;
+  height:64px
+ }
+ #PlayerOne.ui-enabled .playScreen.component .play-icon {
+  margin-top:-32px;
+  margin-left:-32px
+ }
+}
+#PlayerOne.ui-enabled.size-medium .playScreen.component .title,
+#PlayerOne.ui-enabled.size-medium .playScreen.component .viewerInfo,
+#PlayerOne.ui-enabled.size-small .playScreen.component .title,
+#PlayerOne.ui-enabled.size-small .playScreen.component .viewerInfo {
+ display:none!important
+}
+#PlayerOne.ui-enabled.size-medium .playScreen.component .play-icon,
+#PlayerOne.ui-enabled.size-medium .playScreen.component .play-icon svg,
+#PlayerOne.ui-enabled.size-small .playScreen.component .play-icon,
+#PlayerOne.ui-enabled.size-small .playScreen.component .play-icon svg {
+ width:64px;
+ height:64px
+}
+#PlayerOne.ui-enabled.size-medium .playScreen.component .play-icon,
+#PlayerOne.ui-enabled.size-small .playScreen.component .play-icon {
+ margin-top:-32px;
+ margin-left:-32px
+}
+#PlayerOne.ui-enabled .messageScreen {
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ box-sizing:border-box;
+ position:absolute;
+ top:0;
+ right:0;
+ bottom:0;
+ left:0
+}
+#PlayerOne.ui-enabled .messageScreen .messageScreen__text {
+ padding:20px;
+ background:hsla(0,0%,9%,.9);
+ font-size:13px;
+ border-radius:0 2px 2px 0;
+ font-weight:600;
+ color:#fff;
+ text-align:center
+}
+#PlayerOne.ui-enabled .messageScreen--success .messageScreen__text {
+ padding-left:47px;
+ background-repeat:no-repeat;
+ background-position:8px;
+ background-image:url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMTMuMzcyIDE3LjkwNGwtMi43OTktMi43ODhhMS41MiAxLjUyIDAgMDAtMi41OTMgMS4wNzFjMCAuNDAyLjE2Ljc4OC40NDUgMS4wNzJsMy42NTIgMy42MzdjLjM0LjM0MS44MDIuNDg2IDEuMjQ2LjQzNi40NC4wNS44ODQtLjEwMyAxLjIwMi0uNDIxbDkuMDItOS4wNDdhMS40NjcgMS40NjcgMCAwMDAtMi4wODF2LS4wMDdhMS40NjcgMS40NjcgMCAwMC0yLjA3OC4wMDhsLTguMDk1IDguMTJ6IiBmaWxsPSIjMjRBMTQ4Ii8+PC9nPjwvc3ZnPg==)
+}
+#PlayerOne.ui-enabled.fullscreen-mode .messageScreen.component {
+ padding:40px;
+ width:auto;
+ height:auto
+}
+#PlayerOne.ui-enabled.fullscreen-mode .messageScreen--success.component {
+ padding-left:60px;
+ background-size:48px
+}
+#PlayerOne.ui-enabled .statusAnimation {
+ display:inline-block;
+ cursor:default;
+ visibility:hidden;
+ position:absolute;
+ top:50%;
+ left:50%;
+ padding:0;
+ width:94px;
+ height:94px;
+ margin:-47px 0 0 -47px
+}
+#PlayerOne.ui-enabled .statusAnimation.shown {
+ visibility:visible
+}
+#PlayerOne.ui-enabled .statusAnimation .icon {
+ position:absolute;
+ top:0;
+ left:0;
+ visibility:hidden;
+ -webkit-transform:scale(1) translateZ(0);
+ transform:scale(1);
+ opacity:.6;
+ transition:opacity .3s ease-in,transform .4s cubic-bezier(.075,.82,.165,1);
+ -webkit-transition:opacity .3s ease-in,-webkit-transform .4s cubic-bezier(.075,.82,.165,1)
+}
+#PlayerOne.ui-enabled .statusAnimation .icon.shown {
+ -webkit-transform:scale(2) translateZ(0);
+ transform:scale(2);
+ opacity:0
+}
+#PlayerOne.ui-enabled .statusAnimation .icon.active {
+ visibility:visible
+}
+#PlayerOne.ui-enabled .statusAnimation .playAnim {
+ width:100%;
+ height:100%;
+ background:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB3aWR0aD0iMzYiIGhlaWdodD0iMzYiPjxwYXRoIGQ9Ik0yNC44MzkgMTYuMjM4TDExLjc5MyA4LjQwOWMtMS41MjktLjkxOC0yLjc4Mi0uMjI2LTIuNzgzIDEuNTM3bC0uMDE0IDE2LjEyNWMtLjAwMSAxLjc2NSAxLjI0NCAyLjQ0NyAyLjc2NiAxLjUxOGwxMy4wOS03Ljk5MmMxLjUyMy0uOTI5IDEuNTE3LTIuNDQxLS4wMTMtMy4zNTl6IiBjbGFzcz0iY2xzLTQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==);
+ background-size:100%
+}
+#PlayerOne.ui-enabled .statusAnimation .pauseAnim {
+ width:100%;
+ height:100%;
+ background:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB3aWR0aD0iMzYiIGhlaWdodD0iMzYiPjxwYXRoIGQ9Ik0yNS41MDcgMjhIMjIuNTFhMS41IDEuNSAwIDAxLTEuNDk4LTEuNXYtMTdBMS41IDEuNSAwIDAxMjIuNTEgOGgyLjk5N2ExLjUgMS41IDAgMDExLjQ5OCAxLjV2MTdhMS41IDEuNSAwIDAxLTEuNDk4IDEuNXptLTEyLjAxNiAwaC0yLjk5NmExLjUgMS41IDAgMDEtMS40OTgtMS41di0xN0ExLjUgMS41IDAgMDExMC40OTUgOGgyLjk5NmExLjUgMS41IDAgMDExLjQ5OCAxLjV2MTdhMS41IDEuNSAwIDAxLTEuNDk4IDEuNXoiIGNsYXNzPSJjbHMtNCIgZmlsbC1ydWxlPSJldmVub2RkIiBmaWxsPSIjZmZmIi8+PC9zdmc+);
+ background-size:100%
+}
+#PlayerOne.ui-enabled.fullscreen-mode .statusAnimation.component {
+ width:131.6px;
+ height:131.6px;
+ margin-top:-65.8px;
+ margin-left:-65.8px
+}
+#PlayerOne.ui-enabled .volume.component {
+ position:relative
+}
+#PlayerOne.ui-enabled .volume.component .lvl {
+ display:none
+}
+#PlayerOne.ui-enabled .volume.component.muted .lvl-0,
+#PlayerOne.ui-enabled .volume.component.volume-1 .lvl-1,
+#PlayerOne.ui-enabled .volume.component.volume-2 .lvl-1,
+#PlayerOne.ui-enabled .volume.component.volume-2 .lvl-2,
+#PlayerOne.ui-enabled .volume.component.volume-3 .lvl-1,
+#PlayerOne.ui-enabled .volume.component.volume-3 .lvl-2,
+#PlayerOne.ui-enabled .volume.component.volume-3 .lvl-3 {
+ display:block
+}
+#PlayerOne.ui-enabled .smallTrigger,
+#PlayerOne.ui-enabled .toggle {
+ display:none
+}
+#PlayerOne.ui-enabled .volume-container {
+ padding:4px;
+ width:16px;
+ height:100px
+}
+#PlayerOne.ui-enabled .volume-container .volumeBar {
+ position:relative;
+ height:100%;
+ cursor:pointer
+}
+#PlayerOne.ui-enabled .volume-container .volumeBar .bar {
+ position:relative;
+ background:hsla(0,0%,100%,.2);
+ width:100%;
+ height:100%;
+ z-index:2
+}
+#PlayerOne.ui-enabled .volume-container .volumeBar .value {
+ position:absolute;
+ bottom:0;
+ width:100%;
+ height:30%;
+ background:#0062ff
+}
+#PlayerOne.ui-enabled .volume-container .volumeBar .hoverIndicator {
+ position:absolute;
+ bottom:0;
+ overflow:hidden;
+ width:100%;
+ height:0
+}
+#PlayerOne.ui-enabled .volume-container .volumeBar .hoverIndicator .knob {
+ position:absolute;
+ top:0;
+ width:100%;
+ height:2px;
+ background:#fff
+}
+#PlayerOne.ui-enabled .volume-container .volumeBar:before {
+ display:none;
+ position:absolute;
+ content:"";
+ bottom:-10px;
+ left:50%;
+ width:12px;
+ height:8px;
+ background:transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB3aWR0aD0iMTIiIGhlaWdodD0iOCI+PHBhdGggZD0iTTAgMGgxMkw2IDZ6Ii8+PHBhdGggZmlsbD0iI0YwQzIxQiIgZD0iTTYgNy40TC42IDJIMFYwaDEuNEw2IDQuNiAxMC42IDBIMTJ2MmgtLjZ6Ii8+PC9zdmc+) 50% no-repeat;
+ transform:translateX(-50%);
+ z-index:1
+}
+#PlayerOne.ui-enabled .volume-container .volumeBar:after {
+ display:none;
+ position:absolute;
+ content:"";
+ top:-4px;
+ left:-4px;
+ bottom:-4px;
+ right:-4px;
+ border:2px solid #f1c21b;
+ box-shadow:0 0 2px 1px rgba(0,0,0,.2);
+ box-sizing:border-box
+}
+#PlayerOne.ui-enabled .volume-container .volumeBar.focus-visible:after {
+ display:block
+}
+#PlayerOne.ui-enabled .volume-container .volumeBar.focus-visible {
+ outline:none
+}
+#PlayerOne.ui-enabled .volume-container .volumeBar.focus-visible:before {
+ display:block
+}
+#PlayerOne.ui-enabled .volume-container.horizontal {
+ width:112px;
+ padding:10px 44px;
+ height:24px
+}
+#PlayerOne.ui-enabled .volume-container.horizontal .toggle {
+ position:absolute;
+ left:10px;
+ top:10px;
+ display:inline-block;
+ width:24px;
+ height:24px;
+ background-size:24px;
+ background:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiPjxwYXRoIGQ9Ik0xMS45OTcgNi43ODJjMC0uNDQ0LS4wMTItLjgwMy0uODAzLS44MDMtLjQ1MSAwLS45OTMuNTI5LTMuMTI0IDIuOTZINC43NDZjLTEuMDMgMC0xLjAxNiA2LjA3MiAwIDYuMDcySDguMDdjMi4wNDcgMi40MDUgMi42NDcgMi45NiAzLjEyNCAyLjk2Ljc5MSAwIC44MDMtLjM2LjgwMy0uODAzVjYuNzgyek0yMC4yMDcgMTMuNzkzbC0xLjQxNCAxLjQxNEwxNyAxMy40MTRsLTEuNzkzIDEuNzkzLTEuNDE0LTEuNDE0TDE1LjU4NiAxMmwtMS43OTMtMS43OTMgMS40MTQtMS40MTRMMTcgMTAuNTg2bDEuNzkzLTEuNzkzIDEuNDE0IDEuNDE0TDE4LjQxNCAxMmwxLjc5MyAxLjc5M3oiIGNsYXNzPSJjbHMtNCIgZmlsbC1ydWxlPSJldmVub2RkIiBmaWxsPSIjZmZmIi8+PC9zdmc+)
+}
+#PlayerOne.ui-enabled .volume-container.horizontal .toggle.icon-full {
+ right:10px;
+ left:auto;
+ background:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiPjxwYXRoIGQ9Ik0xMS45OTcgNi43ODJjMC0uNDQ0LS4wMTItLjgwMy0uODAzLS44MDMtLjQ1MSAwLS45OTMuNTI5LTMuMTI0IDIuOTZINC43NDZjLTEuMDMgMC0xLjAxNiA2LjA3MiAwIDYuMDcySDguMDdjMi4wNDcgMi40MDUgMi42NDcgMi45NiAzLjEyNCAyLjk2Ljc5MSAwIC44MDMtLjM2LjgwMy0uODAzVjYuNzgyek0xNi41MjMgMTguMDE2Yy0uMTU4LS4yNjctLjMyOC0uNTU1LS41MTItLjg2MyAxLjc3OS0xLjA0MSAyLjk4Ny0yLjk1MSAyLjk4Ny01LjE2MSAwLTIuMjE2LTEuMjE1LTQuMTI5LTMuMDAxLTUuMTY5bC41MzItLjg4N2E2Ljk5NSA2Ljk5NSAwIDAxMy40NjUgNi4wMzggNi45OTkgNi45OTkgMCAwMS0zLjQ3MSA2LjA0MnoiIGNsYXNzPSJjbHMtNCIgZmlsbC1ydWxlPSJldmVub2RkIiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTE3Ljk5MSAxMi4wMDZjMCAxLjg0MS0xLjAwNCAzLjQzMS0yLjQ4NCA0LjNsLS41MDgtLjg1YzEuMTk2LS42OTEgMi4wMS0xLjk2OSAyLjAxLTMuNDQ5IDAtMS40OTYtLjgzLTIuNzgzLTIuMDQ2LTMuNDY5bC41MTMtLjg0OWMxLjQ5Ny44NjUgMi41MTUgMi40NjQgMi41MTUgNC4zMTd6IiBjbGFzcz0iY2xzLTQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZmlsbD0iI2ZmZiIvPjxwYXRoIGQ9Ik0xNS45ODcgMTIuMDA3YzAgMS4xMTEtLjYxIDIuMDY4LTEuNTA3IDIuNTg3LS4xNzYtLjI5My0uMzQ3LS41NzQtLjUwOC0uODM5YTEuOTk2IDEuOTk2IDAgMDAtLjA1MS0zLjUwOGMuMTY0LS4yNjYuMzM5LS41NTIuNTE5LS44NDhhMi45ODUgMi45ODUgMCAwMTEuNTQ3IDIuNjA4eiIgY2xhc3M9ImNscy00IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGZpbGw9IiNmZmYiLz48L3N2Zz4=)
+}
+#PlayerOne.ui-enabled .volume-container.horizontal .value {
+ width:0;
+ height:100%
+}
+#PlayerOne.ui-enabled .volume-container.horizontal .hoverIndicator {
+ position:absolute;
+ left:0;
+ overflow:hidden;
+ width:0;
+ height:100%
+}
+#PlayerOne.ui-enabled .volume-container.horizontal .hoverIndicator .knob {
+ position:absolute;
+ right:0;
+ height:100%;
+ width:2px;
+ background:#fff
+}
+#PlayerOne.ui-enabled.fullscreen-mode .popover .volume-container:not(.horizontal) {
+ padding:8px;
+ width:32px;
+ height:200px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .volumeBar:before {
+ bottom:-18px;
+ width:16px;
+ height:16px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .volumeBar:after {
+ top:-8px;
+ left:-8px;
+ bottom:-8px;
+ right:-8px
+}
+#PlayerOne.ui-enabled .quality {
+ display:none
+}
+#PlayerOne.ui-enabled .quality.hd .trigger svg {
+ opacity:1
+}
+#PlayerOne.ui-enabled .cc .popover {
+ overflow-y:auto
+}
+#PlayerOne.ui-enabled .cc .popover::-webkit-scrollbar {
+ width:8px
+}
+#PlayerOne.ui-enabled .cc .popover::-webkit-scrollbar-track {
+ background:transparent;
+ border-radius:20px
+}
+#PlayerOne.ui-enabled .cc .popover::-webkit-scrollbar-thumb {
+ background:#7f7f7f;
+ border-radius:20px
+}
+#PlayerOne.ui-enabled .cc .popover li {
+ text-align:left
+}
+#PlayerOne.ui-enabled ::cue {
+ line-height:1.6em
+}
+#PlayerOne.ui-enabled .audio {
+ display:none
+}
+#PlayerOne.ui-enabled .audio .list.select li {
+ text-align:left;
+ padding-left:25px
+}
+#PlayerOne.ui-enabled .badge.component {
+ display:inline-block;
+ padding:0;
+ transition:opacity .2s ease-out
+}
+#PlayerOne.ui-enabled .badge.component svg {
+ opacity:1;
+ cursor:default
+}
+#PlayerOne.ui-enabled .badge.component.live svg {
+ width:28px;
+ min-width:28px
+}
+#PlayerOne.ui-enabled .badge.component.replay {
+ margin:0 4px;
+ min-width:48px
+}
+#PlayerOne.ui-enabled .badge.component.replay svg {
+ width:48px
+}
+#PlayerOne.ui-enabled .badge.component g {
+ transition:opacity .2s ease-out
+}
+#PlayerOne.ui-enabled .badge.component .inactive {
+ opacity:.5
+}
+#PlayerOne.ui-enabled #ComponentsContainer.hovered .badge.component .inactive,
+#PlayerOne.ui-enabled.autoplay-false .badge.component .inactive,
+#PlayerOne.ui-enabled .badge.component .active {
+ opacity:0
+}
+#PlayerOne.ui-enabled #ComponentsContainer.hovered .badge.component .active,
+#PlayerOne.ui-enabled.autoplay-false .badge.component .active {
+ opacity:1
+}
+#PlayerOne.ui-enabled.fullscreen-mode .badge.component {
+ padding:0
+}
+#PlayerOne.ui-enabled.fullscreen-mode .badge.component.live svg {
+ width:39.2px;
+ min-width:39.2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .badge.component.replay {
+ margin:0 5.6px;
+ min-width:67.2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .badge.component.replay svg {
+ width:67.2px
+}
+@media screen and (max-width:240px) {
+ #PlayerOne.ui-enabled .badge.component {
+  display:none!important
+ }
+}
+#PlayerOne.ui-enabled.size-small .badge.component {
+ display:none!important
+}
+#PlayerOne.ui-enabled .logo {
+ display:none;
+ opacity:0;
+ transition:opacity .2s ease-out
+}
+#PlayerOne.ui-enabled .logo.shown {
+ opacity:1
+}
+#PlayerOne.ui-enabled .logo.shown svg {
+ opacity:.6
+}
+#PlayerOne.ui-enabled.site-mode:not(.fullscreen-mode) .logo.component.shown {
+ display:none;
+ pointer-events:none
+}
+@media screen and (max-width:320px) {
+ #PlayerOne.ui-enabled .logo.component {
+  display:none!important
+ }
+}
+#PlayerOne.ui-enabled.size-medium .logo.component,
+#PlayerOne.ui-enabled.size-small .logo.component {
+ display:none!important
+}
+#PlayerOne.ui-enabled.fullscreen-mode #topPanelRight .logo svg {
+ width:61.6px
+}
+#PlayerOne.ui-enabled .share-popover button {
+ white-space:nowrap
+}
+#PlayerOne.ui-enabled .share-popover button>i {
+ opacity:.7;
+ content:"";
+ display:block;
+ position:absolute;
+ background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiPjxwYXRoIGQ9Ik0xNS4xMTMgNy40NTJoLTEuNTA3Yy0uMjk4IDAtLjYuMzI0LS42LjU2NHYxLjYxaDIuMTA0Yy0uMDg0IDEuMjM1LS4yNTggMi4zNjUtLjI1OCAyLjM2NWgtMS44NTd2Ni45OThoLTIuNzY2di02Ljk5OEg4Ljg4MlY5LjYzNWgxLjM0N1Y3LjcxYzAtLjM1My0uMDY4LTIuNzEgMi44MzUtMi43MWgyLjA0OXYyLjQ1MnoiIGNsYXNzPSJjbHMtNCIgZmlsbC1ydWxlPSJldmVub2RkIiBmaWxsPSIjZmZmIi8+PC9zdmc+);
+ background-size:100%
+}
+#PlayerOne.ui-enabled .share-popover button.twitter>i {
+ background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiPjxwYXRoIGQ9Ik0xOC44NDUgNy45MzRhNS4xNDggNS4xNDggMCAwMS0xLjUwNi40MjRjLjU0MS0uMzMzLjk1Ny0uODYgMS4xNTMtMS40ODlhNS4xNSA1LjE1IDAgMDEtMS42NjYuNjUzIDIuNTg3IDIuNTg3IDAgMDAtMS45MTQtLjg0OWMtMS40NDggMC0yLjYyMiAxLjIwNC0yLjYyMiAyLjY5IDAgLjIxMS4wMjMuNDE2LjA2OC42MTMtMi4xOC0uMTEyLTQuMTEyLTEuMTgzLTUuNDA2LTIuODExYTIuNzQgMi43NCAwIDAwLS4zNTUgMS4zNTNjMCAuOTMzLjQ2MyAxLjc1NiAxLjE2NyAyLjIzOWEyLjU1OSAyLjU1OSAwIDAxLTEuMTg4LS4zMzd2LjAzNGMwIDEuMzA0LjkwNCAyLjM5MSAyLjEwMyAyLjYzOGEyLjUzOCAyLjUzOCAwIDAxLTEuMTg0LjA0N2MuMzM0IDEuMDY4IDEuMzAyIDEuODQ2IDIuNDUgMS44NjhhNS4xODIgNS4xODIgMCAwMS0zLjg4MyAxLjExNCA3LjI5MSA3LjI5MSAwIDAwNC4wMiAxLjIwOWM0LjgyNCAwIDcuNDYyLTQuMSA3LjQ2Mi03LjY1NSAwLS4xMTctLjAwMy0uMjMzLS4wMDgtLjM0OGE1LjQxMiA1LjQxMiAwIDAwMS4zMDktMS4zOTN6IiBjbGFzcz0iY2xzLTQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==)
+}
+#PlayerOne.ui-enabled .share-popover button.mixi>i {
+ background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiPjxwYXRoIGQ9Ik0xMi41MTYgMjAuMDA4di0xLjcwN2MtMy43NTYuNTAyLTcuMzctMS4zNTYtOC4zMTQtNC43Mi0xLjA0LTMuNzQyIDEuNjMtOC4xMTEgNS45MDUtOS4yNjYgMy4wMjMtLjgwMyA1LjkyOS0uMDUgNy43OTUgMS43ODMgMy44OTcgMy44MTcgMi41MjcgMTEuMDIzLTUuMzg2IDEzLjkxem0zLjgyNy05LjQ5MWMwLTEuMzU1LS42MTUtMi4yNTktMS44OS0yLjI1OS0uODc0IDAtMS42NzcuNTI3LTIuMDc5IDEuMjA1LS4yODMtLjc1My0uODUtMS4yMDUtMS43NzEtMS4yMDUtLjg3NCAwLTEuNTM1LjUwMi0xLjkzNyAxLjE4VjguNDA5YzAtLjAyNi0uMDI0LS4wNTEtLjA0Ny0uMDUxaC0uOTQ1Yy0uMDI0IDAtLjA0Ny4wMjUtLjA0Ny4wNTF2Ni4wMjVjMCAuMDI1LjAyMy4wNS4wNDcuMDVoLjkyMWMuMDI0IDAgLjA0Ny0uMDI1LjA0Ny0uMDV2LTMuMTg5YzAtMS4yMDUuNzU2LTEuOTgzIDEuNTgzLTEuOTgzLjg1IDAgMS4yMDUuNDc3IDEuMjA1IDEuMzgxdjMuODE2YzAgLjAyNS4wMjMuMDUxLjA0Ny4wNTFoLjk2OGMuMDI0IDAgLjA0OC0uMDI2LjA0OC0uMDUxdi0zLjIxNGMwLTEuMjMuNzc5LTEuOTgzIDEuNjA2LTEuOTgzLjg1IDAgMS4xODEuNDc3IDEuMTgxIDEuMzgxdjMuODE2YzAgLjAyNS4wMjMuMDUxLjA0Ny4wNTFoLjk2OGMuMDI0IDAgLjA0OC0uMDI2LjA0OC0uMDUxdi0zLjk0MnoiIGZpbGw9IiNmZmYiLz48L3N2Zz4=)
+}
+#PlayerOne.ui-enabled .share-popover button.copyLink>i {
+ background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiPjxwYXRoIGQ9Ik0xNy45MjEgMTEuMjZsLTIuOTYgMi45NmEzLjY2MyAzLjY2MyAwIDAxLTUuMTgxIDBjLS4xMjctLjEyNi0uMjI5LS4yNjctLjMzMy0uNDA3bDEuNTExLTEuNTExYy4wNzUuMTU4LjE3Mi4zMDguMzAyLjQzOGExLjU3IDEuNTcgMCAwMDIuMjIgMGwyLjk2MS0yLjk2YTEuNTcxIDEuNTcxIDAgMDAtMi4yMjEtMi4yMjFsLS41NzQuNTc0YTQuNjgzIDQuNjgzIDAgMDAtMi41MzctLjQyM2wxLjYzMS0xLjYzMWEzLjY2MyAzLjY2MyAwIDExNS4xODEgNS4xODF6TTE0LjIyIDkuNzhjLjEyNy4xMjYuMjI5LjI2OC4zMzMuNDA3bC0xLjUxMSAxLjUxMWExLjUzMyAxLjUzMyAwIDAwLS4zMDItLjQzOCAxLjU3IDEuNTcgMCAwMC0yLjIyIDBsLTIuOTYxIDIuOTZhMS41NzEgMS41NzEgMCAwMDIuMjIxIDIuMjIxbC41NzQtLjU3NGMuNzk5LjM4IDEuNjc0LjUxOSAyLjUzNy40MjNsLTEuNjMxIDEuNjMxYTMuNjYzIDMuNjYzIDAgMTEtNS4xODEtNS4xODFMOS4wNCA5Ljc4YTMuNjYyIDMuNjYyIDAgMDE1LjE4IDB6IiBjbGFzcz0iY2xzLTQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==)
+}
+#PlayerOne.ui-enabled .share-popover button.embedCode>i {
+ background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiPjxwYXRoIGQ9Ik0xOS43MDkgMTIuNzA3bC00LjAyNCA0LjAyNGEuOTk5Ljk5OSAwIDExLTEuNDE0LTEuNDE0bDMuMzA0LTMuMzA0LTMuMzA0LTMuMzNhLjk5OS45OTkgMCAxMTEuNDE0LTEuNDE0bDMuOTMyIDMuOTYzYy4wMy4wMjMuMDY1LjAzNC4wOTIuMDYxYTEgMSAwIDAxMCAxLjQxNHpNOS43MDggMTYuNzMxYS45OTkuOTk5IDAgMDEtMS40MTQgMEw0LjI3IDEyLjcwN2EuOTk5Ljk5OSAwIDAxMC0xLjQxNGw0LjAyNC00LjAyNGExIDEgMCAwMTEuNDE0IDEuNDE0TDYuMzkxIDEybDMuMzE3IDMuMzE3YTEgMSAwIDAxMCAxLjQxNHoiIGNsYXNzPSJjbHMtNCIgZmlsbC1ydWxlPSJldmVub2RkIiBmaWxsPSIjZmZmIi8+PC9zdmc+)
+}
+#PlayerOne.ui-enabled .share-popover button:hover>i {
+ opacity:1
+}
+#PlayerOne.ui-enabled #EmbedOverlay .overlay-content>div,
+#PlayerOne.ui-enabled #LinkOverlay .overlay-content>div {
+ margin:5px 0;
+ border:0;
+ border-radius:3px
+}
+#PlayerOne.ui-enabled #EmbedOverlay .overlay-content>div input[type=text],
+#PlayerOne.ui-enabled #EmbedOverlay .overlay-content>div textarea,
+#PlayerOne.ui-enabled #LinkOverlay .overlay-content>div input[type=text],
+#PlayerOne.ui-enabled #LinkOverlay .overlay-content>div textarea {
+ padding:4px 8px;
+ margin:0
+}
+#PlayerOne.ui-enabled .title {
+ display:none;
+ padding:0;
+ margin-left:8px;
+ width:100%;
+ height:auto;
+ font-weight:600;
+ text-shadow:0 0 3px rgba(0,0,0,.4);
+ cursor:default;
+ opacity:0;
+ transition:opacity .1s ease-out
+}
+#PlayerOne.ui-enabled .title h3 {
+ display:none;
+ white-space:nowrap;
+ overflow:hidden;
+ text-overflow:ellipsis;
+ margin:0;
+ text-shadow:none;
+ -webkit-text-shadow:none;
+ -moz-text-shadow:none
+}
+#PlayerOne.ui-enabled .title span {
+ font-weight:400;
+ opacity:0;
+ text-transform:uppercase;
+ transition:opacity .1s ease-out
+}
+#PlayerOne.ui-enabled .title.title-shown h3 {
+ display:block
+}
+#PlayerOne.ui-enabled.site-mode:not(.viewingexperience) .title,
+#PlayerOne.ui-enabled.site-mode:not(.viewingexperience) .viewerInfo {
+ display:none!important
+}
+#PlayerOne.ui-enabled.fullscreen-mode .title,
+#PlayerOne.ui-enabled.fullscreen-mode .viewerInfo {
+ width:100%
+}
+#PlayerOne.ui-enabled.fullscreen-mode .title {
+ margin-left:11.2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .viewerInfo {
+ font-size:15.4px
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled .title,
+ #PlayerOne.ui-enabled .viewerInfo {
+  display:none!important
+ }
+}
+#PlayerOne.ui-enabled.size-big .title,
+#PlayerOne.ui-enabled.size-big .viewerInfo,
+#PlayerOne.ui-enabled.size-medium .title,
+#PlayerOne.ui-enabled.size-medium .viewerInfo,
+#PlayerOne.ui-enabled.size-small .title,
+#PlayerOne.ui-enabled.size-small .viewerInfo {
+ display:none!important
+}
+#PlayerOne.ui-enabled .viewerInfo {
+ display:block;
+ padding:0;
+ opacity:0;
+ color:#fff;
+ font-size:11px;
+ line-height:11px;
+ font-weight:500;
+ letter-spacing:-.15px;
+ text-shadow:0 0 3px rgba(0,0,0,.4);
+ width:100%
+}
+#PlayerOne.ui-enabled .customlogo {
+ padding:0;
+ position:absolute;
+ right:8px;
+ bottom:8px;
+ width:auto;
+ height:auto;
+ opacity:1;
+ display:none;
+ transition:all .2s ease-out
+}
+#PlayerOne.ui-enabled .customlogo img {
+ max-height:48px;
+ max-width:144px
+}
+#PlayerOne.ui-enabled .hovered .customlogo {
+ bottom:40px
+}
+#PlayerOne.ui-enabled.ui-hidden .customlogo {
+ opacity:0
+}
+#PlayerOne.ui-enabled.fullscreen-mode .customlogo.component {
+ right:11.2px;
+ bottom:11.2px;
+ width:auto;
+ height:auto
+}
+#PlayerOne.ui-enabled.fullscreen-mode .hovered .customlogo {
+ bottom:56px
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled .customlogo {
+  display:none!important
+ }
+}
+#PlayerOne.ui-enabled.size-big .customlogo,
+#PlayerOne.ui-enabled.size-medium .customlogo,
+#PlayerOne.ui-enabled.size-small .customlogo {
+ display:none!important
+}
+#PlayerOne.ui-enabled .theater,
+#PlayerOne.ui-enabled .theater .disabled,
+#PlayerOne.ui-enabled .theater.opened .enabled {
+ display:none
+}
+#PlayerOne.ui-enabled .theater.opened .disabled {
+ display:block
+}
+#PlayerOne.ui-enabled .thumbnail.component {
+ position:absolute;
+ cursor:default;
+ opacity:1;
+ transform:scale(1);
+ -webkit-transform:scale(1);
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ overflow:hidden;
+ margin:0;
+ padding:0;
+ transition:opacity .1s ease-in;
+ background-repeat:no-repeat;
+ background-size:contain;
+ background-position:50%
+}
+#PlayerOne.ui-enabled .thumbnail.component img {
+ height:1080px;
+ max-width:100%;
+ max-height:100%;
+ margin:auto;
+ position:absolute;
+ top:0;
+ right:0;
+ bottom:0;
+ left:0
+}
+#PlayerOne.ui-enabled .slideshow.component {
+ position:absolute;
+ display:block;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ overflow:hidden;
+ margin:0;
+ padding:0;
+ cursor:default;
+ z-index:101;
+ transition:opacity .8s
+}
+#PlayerOne.ui-enabled .slideshow.component>div {
+ max-width:100%;
+ max-height:100%;
+ position:absolute;
+ top:0;
+ right:0;
+ bottom:0;
+ left:0;
+ opacity:0;
+ background-repeat:no-repeat;
+ background-size:contain;
+ background-position:50%;
+ background-color:#000;
+ transition:opacity .8s ease-out;
+ transition-delay:2s
+}
+#PlayerOne.ui-enabled .slideshow.component>div.active {
+ opacity:1
+}
+#PlayerOne.ui-enabled #StatsOverlay {
+ z-index:2;
+ height:-moz-calc(100% - 32px);
+ height:-webkit-calc(100% - 32px);
+ height:calc(100% - 32px)
+}
+#PlayerOne.ui-enabled #StatsOverlay section {
+ margin-bottom:40px
+}
+#PlayerOne.ui-enabled #StatsOverlay section h3 {
+ border-bottom:1px solid #454545;
+ padding-bottom:10px;
+ margin-bottom:10px
+}
+#PlayerOne.ui-enabled #StatsOverlay section p {
+ line-height:1.2em;
+ margin:0 0 8px
+}
+#PlayerOne.ui-enabled #StatsOverlay section>div {
+ align-items:center;
+ justify-content:space-between
+}
+#PlayerOne.ui-enabled #StatsOverlay section>div>p {
+ margin:0
+}
+#PlayerOne.ui-enabled #StatsOverlay section>div,
+#PlayerOne.ui-enabled #StatsOverlay section>p {
+ display:flex
+}
+#PlayerOne.ui-enabled #StatsOverlay .overlay-content section:first-child {
+ margin-top:40px
+}
+#PlayerOne.ui-enabled #StatsOverlay span {
+ color:#ccc
+}
+#PlayerOne.ui-enabled #StatsOverlay span.stats-row-label {
+ flex:0 0 100px
+}
+#PlayerOne.ui-enabled #StatsOverlay span.stats-row-value {
+ flex:1 0 256px;
+ color:#fff;
+ word-break:break-word
+}
+#PlayerOne.ui-enabled #StatsOverlay .storage-graph-container {
+ display:flex;
+ align-items:center;
+ height:24px;
+ width:256px
+}
+#PlayerOne.ui-enabled #StatsOverlay .storage-graph-container .storage-graph-background {
+ display:flex;
+ align-items:center;
+ position:relative;
+ height:12px;
+ border-radius:1px;
+ background-color:hsla(0,0%,100%,.15)
+}
+#PlayerOne.ui-enabled #StatsOverlay .storage-graph-container .storage-graph-background:after {
+ position:absolute;
+ content:"";
+ top:0;
+ left:50%;
+ width:1px;
+ height:100%;
+ background-color:#ff604c;
+ opacity:.8
+}
+#PlayerOne.ui-enabled #StatsOverlay .providerData {
+ border-left:2px solid #fff;
+ padding-left:8px;
+ margin-bottom:16px
+}
+#PlayerOne.ui-enabled #StatsOverlay .providerData .bttn-link {
+ margin:0;
+ padding-right:0
+}
+#PlayerOne.ui-enabled #StatsOverlay .providerHost,
+#PlayerOne.ui-enabled #StatsOverlay .providerTime {
+ margin:0;
+ color:#fff
+}
+#PlayerOne.ui-enabled.fullscreen-mode #StatsOverlay {
+ height:-moz-calc(100% - 44.8px);
+ height:-webkit-calc(100% - 44.8px);
+ height:calc(100% - 44.8px)
+}
+#PlayerOne.ui-enabled.fullscreen-mode #StatsOverlay span:not(.stats-row-value) {
+ min-width:150px
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled #StatsOverlay.live {
+  height:100%
+ }
+}
+#PlayerOne.ui-enabled.size-big #StatsOverlay.live,
+#PlayerOne.ui-enabled.size-medium #StatsOverlay.live,
+#PlayerOne.ui-enabled.size-small #StatsOverlay.live {
+ height:100%
+}
+#PlayerOne.ui-enabled #DebugOverlay {
+ z-index:2;
+ height:-moz-calc(100% - 32px);
+ height:-webkit-calc(100% - 32px);
+ height:calc(100% - 32px)
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay {
+ padding:100px 0
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__category {
+ margin-bottom:40px
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__category-item {
+ display:flex;
+ align-items:center
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__category-item--loading>svg {
+ -webkit-animation:round-animation 2s linear infinite;
+ animation:round-animation 2s linear infinite
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__category-item p {
+ margin:4px 0 4px 8px
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__category-item,
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__data {
+ font-weight:400;
+ font-size:13px;
+ color:#bebebe
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__ecdn {
+ margin-left:10px
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__label {
+ padding:0 4px;
+ margin-right:2px;
+ border-radius:2px;
+ font-size:11px;
+ font-weight:600;
+ color:#fff
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__label--info {
+ background:#5f9ea0
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__label--default {
+ background:#444
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__label--success {
+ background:#24a148
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__label--warning {
+ color:#000;
+ background:#fdd13a
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__label--error {
+ background:#da1e28
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__log-wrapper {
+ margin-bottom:2px;
+ padding-left:28px
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__log {
+ display:flex;
+ align-items:baseline
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__log-reason {
+ display:flex;
+ align-items:baseline;
+ margin-left:10px;
+ font-size:12px
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__log-count {
+ margin-left:10px
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__chart-wrapper {
+ width:100%;
+ padding-left:28px;
+ box-sizing:border-box
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__chart {
+ height:4px;
+ margin:5px 0 10px;
+ display:flex
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__chart-request {
+ background:#da1e28;
+ color:#fff;
+ height:100%
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__chart-response {
+ background:#fdd13a;
+ color:#fff;
+ height:100%
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__data {
+ margin:5px 0 10px
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__frame-data {
+ margin-bottom:40px
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__frame-data-group {
+ display:flex
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__frame-data-group-item {
+ flex:1
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__frame-data-group-item--error {
+ color:#da1e28
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__frame-data-group-item--warning {
+ color:#fdd13a
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay__frame-data-group-item--success {
+ color:#24a148
+}
+#PlayerOne.ui-enabled #DebugOverlay .debug-overlay h3 {
+ text-transform:uppercase;
+ border-bottom:1px solid #454545;
+ padding-bottom:10px;
+ margin-bottom:10px
+}
+#PlayerOne.ui-enabled.fullscreen-mode #DebugOverlay {
+ height:-moz-calc(100% - 44.8px);
+ height:-webkit-calc(100% - 44.8px);
+ height:calc(100% - 44.8px)
+}
+#PlayerOne.ui-enabled.fullscreen-mode #DebugOverlay .debug-overlay__icon {
+ width:24px;
+ height:24px
+}
+#PlayerOne.ui-enabled .context-menu button {
+ padding:0 20px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .context-menu button {
+ padding:0 28px
+}
+#PlayerOne.ui-enabled #LogSendingOverlay div.container {
+ margin-left:auto;
+ margin-right:auto
+}
+#PlayerOne.ui-enabled #LogSendingOverlay select {
+ margin-top:12px
+}
+#PlayerOne.ui-enabled #LogSendingOverlay .hidden {
+ display:none
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled #ReportIssueOverlay div.container,
+ #PlayerOne.ui-enabled #ReportIssueOverlay input,
+ #PlayerOne.ui-enabled #ReportIssueOverlay select,
+ #PlayerOne.ui-enabled #ReportIssueOverlay textarea {
+  width:100%
+ }
+}
+#PlayerOne.ui-enabled.size-big #ReportIssueOverlay div.container,
+#PlayerOne.ui-enabled.size-big #ReportIssueOverlay input,
+#PlayerOne.ui-enabled.size-big #ReportIssueOverlay select,
+#PlayerOne.ui-enabled.size-big #ReportIssueOverlay textarea,
+#PlayerOne.ui-enabled.size-medium #ReportIssueOverlay div.container,
+#PlayerOne.ui-enabled.size-medium #ReportIssueOverlay input,
+#PlayerOne.ui-enabled.size-medium #ReportIssueOverlay select,
+#PlayerOne.ui-enabled.size-medium #ReportIssueOverlay textarea,
+#PlayerOne.ui-enabled.size-small #ReportIssueOverlay div.container,
+#PlayerOne.ui-enabled.size-small #ReportIssueOverlay input,
+#PlayerOne.ui-enabled.size-small #ReportIssueOverlay select,
+#PlayerOne.ui-enabled.size-small #ReportIssueOverlay textarea {
+ width:100%
+}
+#PlayerOne.ui-enabled .spinner {
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ box-sizing:border-box;
+ position:absolute;
+ top:0;
+ right:0;
+ bottom:0;
+ left:0
+}
+#PlayerOne.ui-enabled .spinner .spinnerAnimation {
+ width:36px;
+ height:36px;
+ display:inline-block;
+ box-sizing:border-box;
+ position:relative;
+ z-index:100;
+ -webkit-animation:round-animation .4s linear infinite;
+ animation:round-animation .4s linear infinite
+}
+#PlayerOne.ui-enabled .spinner .spinnerAnimation:before {
+ border-radius:50%;
+ content:" ";
+ width:36px;
+ height:36px;
+ display:inline-block;
+ box-sizing:border-box;
+ border:4px solid #dae1e6;
+ position:absolute;
+ top:0;
+ left:0
+}
+#PlayerOne.ui-enabled .spinner .spinnerAnimation:after {
+ border-radius:50%;
+ content:" ";
+ width:36px;
+ height:36px;
+ display:inline-block;
+ box-sizing:border-box;
+ border-color:#0062ff transparent;
+ border-style:solid;
+ border-width:4px;
+ position:absolute;
+ top:0;
+ left:0
+}
+@-webkit-keyframes round-animation {
+ 0% {
+  transform:rotate(0deg)
+ }
+ to {
+  transform:rotate(1turn)
+ }
+}
+@keyframes round-animation {
+ 0% {
+  transform:rotate(0deg)
+ }
+ to {
+  transform:rotate(1turn)
+ }
+}
+#PlayerOne.ui-enabled #LogSendingThanksOverlay div.container {
+ margin-left:auto;
+ margin-right:auto
+}
+#PlayerOne.ui-enabled #LogSendingThanksOverlay #logId {
+ width:263px;
+ float:left;
+ padding:0 5px;
+ margin-right:10px
+}
+#PlayerOne.ui-enabled .poll.component {
+ width:auto;
+ height:auto;
+ cursor:default
+}
+#PlayerOne.ui-enabled .poll__notification {
+ position:absolute;
+ bottom:40px;
+ left:0;
+ height:36px;
+ padding:8px 14px 8px 40px;
+ max-width:30%;
+ background-color:rgba(22,22,22,.8);
+ cursor:pointer;
+ z-index:2
+}
+#PlayerOne.ui-enabled .poll__notification__icon {
+ position:absolute;
+ top:50%;
+ left:6px;
+ fill:#fff;
+ opacity:1!important;
+ transform:translateY(-50%)
+}
+#PlayerOne.ui-enabled .poll__notification__title {
+ margin:0;
+ font-size:13px;
+ line-height:18px
+}
+#PlayerOne.ui-enabled .poll__notification__question {
+ margin:0;
+ overflow:hidden;
+ font-size:12px;
+ line-height:18px;
+ color:#ccc;
+ white-space:nowrap;
+ text-overflow:ellipsis
+}
+#PlayerOne.ui-enabled .poll__notification--minimal {
+ width:40px;
+ height:32px;
+ padding:0
+}
+#PlayerOne.ui-enabled .poll__notification--minimal .poll__notification__question,
+#PlayerOne.ui-enabled .poll__notification--minimal .poll__notification__title {
+ display:none
+}
+#PlayerOne.ui-enabled .poll__overlay__title {
+ margin:0 0 15px
+}
+#PlayerOne.ui-enabled .poll__overlay__answer-item {
+ display:block;
+ overflow:hidden;
+ position:relative;
+ margin-bottom:6px;
+ padding:8px 22px 8px 40px;
+ font-size:14px;
+ line-height:17px;
+ color:#ccc;
+ background-color:#161616;
+ border-radius:17px;
+ cursor:pointer
+}
+#PlayerOne.ui-enabled .poll__overlay__answer-item:before {
+ content:"";
+ position:absolute;
+ top:11px;
+ left:14px;
+ width:5px;
+ height:5px;
+ border:3px solid #0062ff;
+ border-radius:50%
+}
+#PlayerOne.ui-enabled .poll__overlay__answer-item:hover {
+ background-color:hsla(0,0%,100%,.1)
+}
+#PlayerOne.ui-enabled .poll__overlay__answer-item:last-child {
+ margin-bottom:0
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled .poll__notification {
+  height:24px
+ }
+ #PlayerOne.ui-enabled .poll__notification__question {
+  display:none
+ }
+ #PlayerOne.ui-enabled .poll__notification__icon {
+  top:5px
+ }
+}
+#PlayerOne.ui-enabled.size-big .poll__notification,
+#PlayerOne.ui-enabled.size-medium .poll__notification,
+#PlayerOne.ui-enabled.size-small .poll__notification {
+ height:24px
+}
+#PlayerOne.ui-enabled.size-big .poll__notification__question,
+#PlayerOne.ui-enabled.size-medium .poll__notification__question,
+#PlayerOne.ui-enabled.size-small .poll__notification__question {
+ display:none
+}
+#PlayerOne.ui-enabled.size-big .poll__notification__icon,
+#PlayerOne.ui-enabled.size-medium .poll__notification__icon,
+#PlayerOne.ui-enabled.size-small .poll__notification__icon {
+ top:5px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .poll__notification {
+ bottom:60px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .poll__notification__title {
+ font-size:18.2px;
+ line-height:25.2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .poll__notification__question {
+ font-size:16.8px;
+ line-height:25.2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .poll__overlay__answer-item {
+ font-size:19.6px;
+ line-height:23.8px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .poll__notification {
+ height:50.4px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .poll__notification--minimal {
+ height:44.8px;
+ width:56px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .poll__overlay__answer-item:before {
+ top:15px;
+ width:7px;
+ height:7px
+}
+#PlayerOne.ui-enabled .liveCta,
+#PlayerOne.ui-enabled .liveCta * {
+ transition:all .2s ease-out
+}
+#PlayerOne.ui-enabled .liveCta.component {
+ position:absolute;
+ z-index:1;
+ left:6px;
+ right:6px;
+ bottom:6px;
+ padding:0!important;
+ cursor:default;
+ width:auto!important;
+ height:auto!important
+}
+#PlayerOne.ui-enabled .liveCta__container {
+ display:block;
+ max-width:750px;
+ margin:0 auto;
+ position:relative
+}
+#PlayerOne.ui-enabled .liveCta div.liveCta__link {
+ padding:9px 20px 5px 5px;
+ display:flex;
+ align-items:center;
+ background-color:#fff;
+ border-radius:2px;
+ box-shadow:inset 0 4px 0 0 #0064ff
+}
+#PlayerOne.ui-enabled .liveCta div.liveCta__link:hover {
+ background-color:#ebeff3
+}
+#PlayerOne.ui-enabled .liveCta div.liveCta__link:hover .liveCta__image {
+ transform:scale(1.05)
+}
+#PlayerOne.ui-enabled .liveCta button.liveCta__minimize-button {
+ position:absolute;
+ top:-4px;
+ right:-4px;
+ width:26px;
+ height:26px;
+ background:#17232e url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiPjxwYXRoIGQ9Ik0xMy40MjUgMTIuMDEzbDMuMzA0IDMuMzA0YS45OTkuOTk5IDAgMTEtMS40MTQgMS40MTRMMTIgMTMuNDE2bC0zLjMxNSAzLjMxNWEuOTk5Ljk5OSAwIDExLTEuNDE0LTEuNDE0bDMuMzA0LTMuMzA0LTMuMzA0LTMuMzNhLjk5OS45OTkgMCAxMTEuNDE0LTEuNDE0TDEyIDEwLjYxbDMuMzE1LTMuMzQxYTEgMSAwIDAxMS40MTQgMS40MTRsLTMuMzA0IDMuMzN6IiBmaWxsPSIjZmZmIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=) 50% no-repeat;
+ background-size:80%;
+ border-radius:2px;
+ padding:0;
+ margin:0;
+ min-height:0
+}
+#PlayerOne.ui-enabled .liveCta__image {
+ width:90px;
+ flex-shrink:0;
+ height:90px;
+ margin-right:15px
+}
+#PlayerOne.ui-enabled .liveCta__text-container {
+ padding:5px
+}
+#PlayerOne.ui-enabled .liveCta__description,
+#PlayerOne.ui-enabled .liveCta__title {
+ color:#17232e
+}
+#PlayerOne.ui-enabled .liveCta__title {
+ margin:0 0 4px;
+ font-size:16px;
+ font-weight:600;
+ line-height:22px
+}
+#PlayerOne.ui-enabled .liveCta__description {
+ margin:0;
+ font-size:13px;
+ line-height:19px;
+ letter-spacing:-.15px
+}
+#PlayerOne.ui-enabled .liveCta__inline-button {
+ display:none
+}
+#PlayerOne.ui-enabled .liveCta button.liveCta__button {
+ height:auto;
+ margin-left:auto;
+ padding:16px 20px;
+ line-height:20px;
+ font-weight:500;
+ text-transform:uppercase;
+ white-space:nowrap;
+ color:#fff;
+ background-color:#0064ff;
+ border-radius:2px
+}
+#PlayerOne.ui-enabled .liveCta--minimized.component {
+ right:auto
+}
+#PlayerOne.ui-enabled .liveCta--minimized .liveCta__link {
+ padding:4px 30px 0 0!important;
+ background-image:url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNSIgaGVpZ2h0PSI4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj48ZGVmcz48cGF0aCBkPSJNMTQuNTQ5IDExLjE2NmEuOTk3Ljk5NyAwIDAxLjE2IDEuNTRsLTMuMDE4IDMuMDE0YS45OTguOTk4IDAgMDEtMS40MS0xLjQxbDIuMjk5LTIuMjk4LTIuMy0yLjMyMmEuOTk3Ljk5NyAwIDAxMS40MS0xLjQxbDIuODU5IDIuODg2eiIgaWQ9ImEiLz48L2RlZnM+PHVzZSBmaWxsPSIjMTcyMzJFIiB4bGluazpocmVmPSIjYSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEwIC04KSIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9zdmc+);
+ background-position:calc(100% - 15px) calc(50% + 2px);
+ background-repeat:no-repeat
+}
+#PlayerOne.ui-enabled .liveCta--minimized .liveCta__link:hover {
+ background-color:#ebeff3
+}
+#PlayerOne.ui-enabled .liveCta--minimized .liveCta__link:hover .liveCta__image {
+ transform:none
+}
+#PlayerOne.ui-enabled .liveCta--minimized .liveCta__button,
+#PlayerOne.ui-enabled .liveCta--minimized .liveCta__description,
+#PlayerOne.ui-enabled .liveCta--minimized .liveCta__minimize-button {
+ display:none
+}
+#PlayerOne.ui-enabled .liveCta--minimized .liveCta__image {
+ width:40px;
+ height:40px;
+ margin-right:5px
+}
+#PlayerOne.ui-enabled .liveCta--minimized .liveCta__title {
+ margin:0;
+ font-size:13px;
+ font-weight:500;
+ line-height:18px
+}
+#PlayerOne.ui-enabled #ComponentsContainer.hovered .liveCta {
+ transform:translateY(-32px)
+}
+@media screen and (max-width:640px) {
+ #PlayerOne.ui-enabled .liveCta__link {
+  padding-right:44px
+ }
+ #PlayerOne.ui-enabled .liveCta__image {
+  width:70px;
+  height:70px;
+  margin-right:10px
+ }
+ #PlayerOne.ui-enabled .liveCta__title {
+  font-size:14px;
+  line-height:22px
+ }
+ #PlayerOne.ui-enabled .liveCta__description {
+  font-size:13px;
+  line-height:19px
+ }
+ #PlayerOne.ui-enabled .liveCta__button {
+  display:none
+ }
+ #PlayerOne.ui-enabled .liveCta button.liveCta__minimize-button {
+  top:7px;
+  right:3px;
+  width:36px;
+  height:36px;
+  background-size:55%
+ }
+ #PlayerOne.ui-enabled .liveCta--minimized .liveCta__image {
+  width:40px;
+  height:40px;
+  margin-right:5px
+ }
+ #PlayerOne.ui-enabled .liveCta--minimized .liveCta__title {
+  font-size:13px;
+  line-height:18px
+ }
+}
+#PlayerOne.ui-enabled.size-big .liveCta__link,
+#PlayerOne.ui-enabled.size-large .liveCta__link,
+#PlayerOne.ui-enabled.size-medium .liveCta__link,
+#PlayerOne.ui-enabled.size-small .liveCta__link {
+ padding-right:44px
+}
+#PlayerOne.ui-enabled.size-big .liveCta__image,
+#PlayerOne.ui-enabled.size-large .liveCta__image,
+#PlayerOne.ui-enabled.size-medium .liveCta__image,
+#PlayerOne.ui-enabled.size-small .liveCta__image {
+ width:70px;
+ height:70px;
+ margin-right:10px
+}
+#PlayerOne.ui-enabled.size-big .liveCta__title,
+#PlayerOne.ui-enabled.size-large .liveCta__title,
+#PlayerOne.ui-enabled.size-medium .liveCta__title,
+#PlayerOne.ui-enabled.size-small .liveCta__title {
+ font-size:14px;
+ line-height:22px
+}
+#PlayerOne.ui-enabled.size-big .liveCta__description,
+#PlayerOne.ui-enabled.size-large .liveCta__description,
+#PlayerOne.ui-enabled.size-medium .liveCta__description,
+#PlayerOne.ui-enabled.size-small .liveCta__description {
+ font-size:13px;
+ line-height:19px
+}
+#PlayerOne.ui-enabled.size-big .liveCta__button,
+#PlayerOne.ui-enabled.size-large .liveCta__button,
+#PlayerOne.ui-enabled.size-medium .liveCta__button,
+#PlayerOne.ui-enabled.size-small .liveCta__button {
+ display:none
+}
+#PlayerOne.ui-enabled.size-big .liveCta button.liveCta__minimize-button,
+#PlayerOne.ui-enabled.size-large .liveCta button.liveCta__minimize-button,
+#PlayerOne.ui-enabled.size-medium .liveCta button.liveCta__minimize-button,
+#PlayerOne.ui-enabled.size-small .liveCta button.liveCta__minimize-button {
+ top:7px;
+ right:3px;
+ width:36px;
+ height:36px;
+ background-size:55%
+}
+#PlayerOne.ui-enabled.size-big .liveCta--minimized .liveCta__image,
+#PlayerOne.ui-enabled.size-large .liveCta--minimized .liveCta__image,
+#PlayerOne.ui-enabled.size-medium .liveCta--minimized .liveCta__image,
+#PlayerOne.ui-enabled.size-small .liveCta--minimized .liveCta__image {
+ width:40px;
+ height:40px;
+ margin-right:5px
+}
+#PlayerOne.ui-enabled.size-big .liveCta--minimized .liveCta__title,
+#PlayerOne.ui-enabled.size-large .liveCta--minimized .liveCta__title,
+#PlayerOne.ui-enabled.size-medium .liveCta--minimized .liveCta__title,
+#PlayerOne.ui-enabled.size-small .liveCta--minimized .liveCta__title {
+ font-size:13px;
+ line-height:18px
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled #ComponentsContainer.hovered .liveCta {
+  transform:none
+ }
+ #PlayerOne.ui-enabled .liveCta__title {
+  font-size:14px;
+  line-height:18px
+ }
+ #PlayerOne.ui-enabled .liveCta__button,
+ #PlayerOne.ui-enabled .liveCta__description {
+  display:none
+ }
+ #PlayerOne.ui-enabled .liveCta__inline-button {
+  display:block;
+  font-size:12px;
+  line-height:20px;
+  font-weight:500;
+  color:#0064ff;
+  text-transform:uppercase
+ }
+ #PlayerOne.ui-enabled .liveCta--minimized .liveCta__image,
+ #PlayerOne.ui-enabled .liveCta--minimized .liveCta__inline-button {
+  display:none
+ }
+ #PlayerOne.ui-enabled .liveCta--minimized .liveCta__title {
+  font-size:12px
+ }
+}
+#PlayerOne.ui-enabled.size-big #ComponentsContainer.hovered .liveCta,
+#PlayerOne.ui-enabled.size-medium #ComponentsContainer.hovered .liveCta,
+#PlayerOne.ui-enabled.size-small #ComponentsContainer.hovered .liveCta {
+ transform:none
+}
+#PlayerOne.ui-enabled.size-big .liveCta__title,
+#PlayerOne.ui-enabled.size-medium .liveCta__title,
+#PlayerOne.ui-enabled.size-small .liveCta__title {
+ font-size:14px;
+ line-height:18px
+}
+#PlayerOne.ui-enabled.size-big .liveCta__button,
+#PlayerOne.ui-enabled.size-big .liveCta__description,
+#PlayerOne.ui-enabled.size-medium .liveCta__button,
+#PlayerOne.ui-enabled.size-medium .liveCta__description,
+#PlayerOne.ui-enabled.size-small .liveCta__button,
+#PlayerOne.ui-enabled.size-small .liveCta__description {
+ display:none
+}
+#PlayerOne.ui-enabled.size-big .liveCta__inline-button,
+#PlayerOne.ui-enabled.size-medium .liveCta__inline-button,
+#PlayerOne.ui-enabled.size-small .liveCta__inline-button {
+ display:block;
+ font-size:12px;
+ line-height:20px;
+ font-weight:500;
+ color:#0064ff;
+ text-transform:uppercase
+}
+#PlayerOne.ui-enabled.size-big .liveCta--minimized .liveCta__image,
+#PlayerOne.ui-enabled.size-big .liveCta--minimized .liveCta__inline-button,
+#PlayerOne.ui-enabled.size-medium .liveCta--minimized .liveCta__image,
+#PlayerOne.ui-enabled.size-medium .liveCta--minimized .liveCta__inline-button,
+#PlayerOne.ui-enabled.size-small .liveCta--minimized .liveCta__image,
+#PlayerOne.ui-enabled.size-small .liveCta--minimized .liveCta__inline-button {
+ display:none
+}
+#PlayerOne.ui-enabled.size-big .liveCta--minimized .liveCta__title,
+#PlayerOne.ui-enabled.size-medium .liveCta--minimized .liveCta__title,
+#PlayerOne.ui-enabled.size-small .liveCta--minimized .liveCta__title {
+ font-size:12px
+}
+#PlayerOne.ui-enabled.fullscreen-mode #ComponentsContainer.hovered .liveCta {
+ transform:translateY(-44.8px)
+}
+#PlayerOne.ui-enabled .captionSearchOpener.component {
+ display:none;
+ position:relative
+}
+#PlayerOne.ui-enabled .captionSearchOpener.component .trigger svg path {
+ fill:#fff
+}
+#PlayerOne.ui-enabled .captionSearchOpener.component .trigger:hover svg path {
+ opacity:1
+}
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open #controlPanelRight .component:not(.fullscreen) {
+ display:none;
+ opacity:0
+}
+#PlayerOne.ui-enabled.caption-search-enabled:not(.caption-search-panel-open):not(.autoplay-false) .captionSearchOpener {
+ display:inline-block
+}
+#PlayerOne.ui-enabled.caption-search-has-result .captionSearchOpener.component .trigger svg {
+ opacity:1
+}
+#PlayerOne.ui-enabled .captionSearchPanel.component {
+ visibility:hidden;
+ transform:translateX(100%);
+ width:320px;
+ opacity:0;
+ position:absolute;
+ top:6px;
+ right:6px;
+ padding-right:4px;
+ border-radius:2px;
+ background-color:hsla(0,0%,9%,.9);
+ height:-moz-calc(100% - 44px);
+ height:-webkit-calc(100% - 44px);
+ height:calc(100% - 44px)
+}
+#PlayerOne.ui-enabled .captionSearchPanel.component input,
+#PlayerOne.ui-enabled .captionSearchPanel.component p,
+#PlayerOne.ui-enabled .captionSearchPanel.component span {
+ font-size:13px
+}
+#PlayerOne.ui-enabled .captionSearchPanel.component input {
+ display:none
+}
+#PlayerOne.ui-enabled .captionSearchPanel.component .close-icon {
+ position:absolute;
+ top:8px;
+ right:8px
+}
+#PlayerOne.ui-enabled .captionSearchPanel.component .close-icon:hover {
+ opacity:1
+}
+#PlayerOne.ui-enabled.autoplay-false .captionSearchPanel.component {
+ display:none
+}
+#PlayerOne.ui-enabled .captionSearchPanel.component.animated {
+ transition:all .15s ease-in-out
+}
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open .captionSearchPanel.component {
+ visibility:visible;
+ width:320px;
+ opacity:1;
+ transform:translateX(0);
+ z-index:20
+}
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open .captionSearchPanel.component input {
+ display:block
+}
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open.fullscreen-mode .captionSearchPanel.component {
+ height:-moz-calc(100% - 56.8px);
+ height:-webkit-calc(100% - 56.8px);
+ height:calc(100% - 56.8px);
+ width:448px
+}
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open.fullscreen-mode .captionSearchPanel.component input,
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open.fullscreen-mode .captionSearchPanel.component p,
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open.fullscreen-mode .captionSearchPanel.component span {
+ font-size:18.2px
+}
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open.fullscreen-mode .captionSearchPanel.component .close-icon {
+ top:11.2px;
+ right:11.2px
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open .captionSearchPanel.component {
+  right:0;
+  top:0;
+  height:-moz-calc(100% - 32px);
+  height:-webkit-calc(100% - 32px);
+  height:calc(100% - 32px);
+  border-radius:0;
+  width:100%
+ }
+ #PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open.fullscreen-mode .captionSearchPanel.component {
+  top:0;
+  left:0;
+  height:-moz-calc(100% - 44.8px);
+  height:-webkit-calc(100% - 44.8px);
+  height:calc(100% - 44.8px)
+ }
+}
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open.size-big .captionSearchPanel.component,
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open.size-medium .captionSearchPanel.component,
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open.size-small .captionSearchPanel.component {
+ right:0;
+ top:0;
+ height:-moz-calc(100% - 32px);
+ height:-webkit-calc(100% - 32px);
+ height:calc(100% - 32px);
+ border-radius:0;
+ width:100%
+}
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open.size-big.fullscreen-mode .captionSearchPanel.component,
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open.size-medium.fullscreen-mode .captionSearchPanel.component,
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open.size-small.fullscreen-mode .captionSearchPanel.component {
+ top:0;
+ left:0;
+ height:-moz-calc(100% - 44.8px);
+ height:-webkit-calc(100% - 44.8px);
+ height:calc(100% - 44.8px)
+}
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open #middleOverlay.container,
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open #topOverlay.container,
+#PlayerOne.ui-enabled.caption-search-enabled.caption-search-panel-open #topPanelRight {
+ display:none
+}
+#PlayerOne.ui-enabled #captionSearchInput {
+ padding:8px;
+ height:50px;
+ width:100%
+}
+#PlayerOne.ui-enabled #captionSearchInput .search-icon {
+ position:absolute;
+ top:8px;
+ left:8px
+}
+#PlayerOne.ui-enabled #captionSearchInput input {
+ margin:0;
+ border-radius:2px;
+ background-color:#fff;
+ color:#303030;
+ line-height:32px;
+ border:none;
+ padding:0 0 0 30px;
+ width:266px;
+ height:32px;
+ -webkit-box-sizing:border-box;
+ -moz-box-sizing:border-box;
+ box-sizing:border-box
+}
+#PlayerOne.ui-enabled.fullscreen-mode #captionSearchInput {
+ height:70px;
+ padding:11.2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode #captionSearchInput input {
+ width:372.4px;
+ height:44.8px;
+ padding-left:42px
+}
+#PlayerOne.ui-enabled.fullscreen-mode #captionSearchInput .search-icon {
+ top:11.2px;
+ height:33.6px;
+ width:33.6px;
+ margin:5.6px
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled.fullscreen-mode #captionSearchInput input {
+  width:266px
+ }
+}
+#PlayerOne.ui-enabled.size-big.fullscreen-mode #captionSearchInput input,
+#PlayerOne.ui-enabled.size-medium.fullscreen-mode #captionSearchInput input,
+#PlayerOne.ui-enabled.size-small.fullscreen-mode #captionSearchInput input {
+ width:266px
+}
+#PlayerOne.ui-enabled #captionSearchResultPanel {
+ overflow-y:scroll;
+ scrollbar-face-color:#a8a8a8;
+ scrollbar-track-color:#121212;
+ scrollbar-arrow-color:#a8a8a8;
+ scrollbar-shadow-color:#121212;
+ height:-moz-calc(100% - 56px);
+ height:-webkit-calc(100% - 56px);
+ height:calc(100% - 56px)
+}
+#PlayerOne.ui-enabled #captionSearchResultPanel::-webkit-scrollbar {
+ width:6px;
+ height:6px
+}
+#PlayerOne.ui-enabled #captionSearchResultPanel::-webkit-scrollbar-thumb {
+ border-radius:3px;
+ width:6px;
+ background-color:hsla(0,0%,100%,.3)
+}
+#PlayerOne.ui-enabled #captionSearchResultPanel .summary {
+ color:#ccc;
+ padding-left:20px;
+ padding-right:20px
+}
+#PlayerOne.ui-enabled #captionSearchResultPanel .summary mark {
+ background:none;
+ color:#94c512;
+ font-weight:600
+}
+#PlayerOne.ui-enabled #captionSearchResultPanel p {
+ line-height:18px
+}
+#PlayerOne.ui-enabled #captionSearchResultPanel .results {
+ padding-top:8px
+}
+#PlayerOne.ui-enabled #captionSearchResultPanel .results ul li {
+ padding-right:20px;
+ padding-left:20px
+}
+#PlayerOne.ui-enabled #captionSearchResultPanel .results ul li:hover {
+ background-color:hsla(0,0%,100%,.1);
+ cursor:pointer
+}
+#PlayerOne.ui-enabled #captionSearchResultPanel .results ul li div {
+ display:block;
+ border-top:1px solid hsla(0,0%,100%,.15);
+ padding-top:8px;
+ padding-bottom:8px
+}
+#PlayerOne.ui-enabled #captionSearchResultPanel .results ul li div p.caption-time {
+ display:table-cell;
+ font-weight:600
+}
+#PlayerOne.ui-enabled #captionSearchResultPanel .results ul li div p.caption-text {
+ display:table-cell;
+ padding-left:8px
+}
+#PlayerOne.ui-enabled #captionSearchResultPanel .results ul li div p.caption-text mark {
+ background-color:transparent;
+ position:relative;
+ color:inherit
+}
+#PlayerOne.ui-enabled #captionSearchResultPanel .results ul li div p.caption-text mark:after {
+ content:"";
+ position:absolute;
+ bottom:-2px;
+ height:2px;
+ width:100%;
+ border-radius:1px;
+ left:0;
+ background-color:#539eec
+}
+#PlayerOne.ui-enabled.fullscreen-mode #captionSearchResultPanel {
+ height:-moz-calc(100% - 78.4px);
+ height:-webkit-calc(100% - 78.4px);
+ height:calc(100% - 78.4px)
+}
+#PlayerOne.ui-enabled.fullscreen-mode #captionSearchResultPanel p {
+ line-height:25.2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode #captionSearchResultPanel .summary {
+ padding-left:28px;
+ padding-right:28px
+}
+#PlayerOne.ui-enabled.fullscreen-mode #captionSearchResultPanel .results {
+ padding-top:11.2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode #captionSearchResultPanel .results ul li {
+ padding-right:28px;
+ padding-left:28px
+}
+#PlayerOne.ui-enabled.fullscreen-mode #captionSearchResultPanel .results ul li div {
+ padding-top:11.2px;
+ padding-bottom:11.2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode #captionSearchResultPanel .results ul li div p.caption-text {
+ padding-left:11.2px
+}
+#PlayerOne.ui-enabled:not(.slide-deck-mobile-active) .slide-deck-mobile {
+ display:none
+}
+#PlayerOne.ui-enabled.slide-deck-mobile-active.slide-deck-visible .slide-deck-mobile.full-screen-landscape,
+#PlayerOne.ui-enabled.slide-deck-mobile-active.slide-deck-visible .slide-deck-mobile.full-screen-portrait {
+ width:100%;
+ height:100%;
+ background:#000;
+ display:block;
+ position:absolute;
+ top:0
+}
+#PlayerOne.ui-enabled.slide-deck-mobile-active.slide-deck-visible .slide-deck-mobile.full-screen-landscape .slide-deck-mobile-thumbnail {
+ height:100%;
+ top:0;
+ right:0;
+ bottom:0;
+ left:0;
+ width:100%;
+ padding-top:0
+}
+#PlayerOne.ui-enabled.slide-deck-mobile-active.slide-deck-visible .slide-deck-mobile.full-screen-portrait .slide-deck-mobile-thumbnail {
+ top:50%;
+ transform:translateY(-50%);
+ padding-top:56.25%;
+ width:100%;
+ right:0
+}
+#PlayerOne.ui-enabled.slide-deck-mobile-active.slide-deck-visible .slide-deck-mobile .slide-deck-mobile-thumbnail {
+ z-index:2;
+ position:absolute;
+ bottom:20%;
+ width:30%;
+ right:10px;
+ padding-top:16.875%;
+ background-size:contain;
+ background-repeat:no-repeat;
+ background-position:50%
+}
+#PlayerOne.ui-enabled.slide-deck-mobile-active.slide-deck-visible .slide-deck-mobile .slide-deck-mobile-minify {
+ z-index:2;
+ position:absolute;
+ bottom:6px;
+ right:6px;
+ border-radius:2px;
+ width:36px;
+ height:36px;
+ opacity:.9;
+ background:rgba(22,22,22,.9);
+ border:1px solid hsla(0,0%,100%,.1);
+ cursor:pointer
+}
+#PlayerOne.ui-enabled.slide-deck-mobile-active.slide-deck-visible .slide-deck-mobile .slide-deck-mobile-minify svg {
+ height:24px;
+ width:23.93px;
+ margin:6px
+}
+#PlayerOne.ui-enabled.slide-deck-mobile-active.slide-deck-visible #ComponentsContainer.hovered .slide-deck-mobile .slide-deck-mobile-minify {
+ bottom:35px
+}
+#PlayerOne.ui-enabled:not(.slide-deck-desktop-active) .slide-deck-desktop {
+ display:none
+}
+@media screen and (min-width:480px) and (max-width:320px) {
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active .slide-deck-desktop {
+  display:none
+ }
+}
+@media screen and (min-width:480px) {
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active #ViewerContainer,
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active .slide-deck-desktop-thumbnail-container {
+  transition:all .15s linear
+ }
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active .slide-deck-desktop-thumbnail-container {
+  position:absolute;
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-position:50%;
+  top:50%;
+  transform:translateY(-50%);
+  height:100%;
+  text-align:center
+ }
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active .slide-deck-desktop-thumbnail-container img {
+  max-height:100%;
+  max-width:100%;
+  position:relative;
+  top:50%;
+  transform:translateY(-50%)
+ }
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active .slide-deck-desktop .slide-deck-desktop-controls {
+  position:absolute;
+  cursor:pointer;
+  top:50%;
+  z-index:10;
+  transform:translateY(-50%);
+  right:10px;
+  left:auto;
+  width:25%;
+  height:25%;
+  transition:background .15s ease-in-out
+ }
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active .slide-deck-desktop .slide-deck-desktop-controls button {
+  opacity:0
+ }
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active .slide-deck-desktop .slide-deck-desktop-controls:hover {
+  background-color:rgba(22,22,22,.8)
+ }
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active .slide-deck-desktop .slide-deck-desktop-controls:hover button {
+  opacity:1
+ }
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active .slide-deck-desktop .slide-deck-desktop-controls .slide-deck-desktop-close {
+  position:absolute;
+  right:4px;
+  top:4px
+ }
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active .slide-deck-desktop .slide-deck-desktop-controls .slide-deck-desktop-switch {
+  position:absolute;
+  top:50%;
+  transform:translate(-50%,-50%);
+  left:50%
+ }
+}
+@media screen and (min-width:480px) and (min-width:480px) {
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active.slide-deck-slide-active #ViewerContainer {
+  position:absolute;
+  height:auto;
+  top:50%;
+  transform:translateY(-50%);
+  right:10px;
+  left:auto;
+  width:25%
+ }
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active.slide-deck-slide-active #ViewerContainer object {
+  height:auto
+ }
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active.slide-deck-slide-active .slide-deck-desktop-thumbnail-container {
+  left:0;
+  width:-moz-calc(75% - 20px);
+  width:-webkit-calc(75% - 20px);
+  width:calc(75% - 20px)
+ }
+}
+@media screen and (min-width:480px) {
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active.slide-deck-video-active #ViewerContainer {
+  width:-moz-calc(75% - 20px);
+  width:-webkit-calc(75% - 20px);
+  width:calc(75% - 20px)
+ }
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active.slide-deck-video-active .slide-deck-desktop-thumbnail-container {
+  right:10px;
+  max-width:25%
+ }
+}
+@media screen and (min-width:480px) and (min-width:480px) {
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active.slide-deck-video-active .slide-deck-desktop-thumbnail-container {
+  top:50%;
+  transform:translateY(-50%)
+ }
+}
+@media screen and (min-width:480px) {
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active.slide-deck-full .slide-deck-desktop-controls,
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active.slide-deck-full.slide-deck-slide-active #ViewerContainer {
+  opacity:0;
+  visibility:hidden
+ }
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active.slide-deck-full.slide-deck-slide-active .slide-deck-desktop-thumbnail-container {
+  width:100%
+ }
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active.slide-deck-full.slide-deck-full.slide-deck-video-active .slide-deck-desktop>* {
+  opacity:0;
+  visibility:hidden
+ }
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active.slide-deck-full.slide-deck-full.slide-deck-video-active #ViewerContainer {
+  width:100%
+ }
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active.fade-out-slides #ViewerContainer,
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active.fade-out-slides .slide-deck-desktop-controls,
+ #PlayerOne.ui-enabled.slide-deck-visible.slide-deck-desktop-active.fade-out-slides .slide-deck-desktop-thumbnail-container {
+  opacity:0;
+  transition-property:opacity
+ }
+}
+#PlayerOne.ui-enabled .side-panel.component {
+ display:none;
+ position:absolute;
+ top:6px;
+ right:6px;
+ width:240px;
+ z-index:20;
+ border-radius:2px;
+ background-color:hsla(0,0%,9%,.9)
+}
+#PlayerOne.ui-enabled .side-panel.component input,
+#PlayerOne.ui-enabled .side-panel.component p,
+#PlayerOne.ui-enabled .side-panel.component span {
+ font-size:13px
+}
+#PlayerOne.ui-enabled.slide-index-panel-visible .side-panel.component {
+ display:block;
+ height:-moz-calc(100% - 44px);
+ height:-webkit-calc(100% - 44px);
+ height:calc(100% - 44px)
+}
+#PlayerOne.ui-enabled.slide-index-panel-visible .side-panel.component .close-icon {
+ position:absolute;
+ cursor:pointer;
+ top:8px;
+ right:8px;
+ width:32px;
+ height:32px;
+ margin:0
+}
+#PlayerOne.ui-enabled.slide-index-panel-visible .side-panel.component .close-icon path {
+ fill:silver
+}
+#PlayerOne.ui-enabled.slide-index-panel-visible .side-panel.component .close-icon:hover {
+ opacity:1
+}
+#PlayerOne.ui-enabled.slide-index-panel-visible.fullscreen-mode .side-panel.component {
+ height:-moz-calc(100% - 56.8px);
+ height:-webkit-calc(100% - 56.8px);
+ height:calc(100% - 56.8px);
+ width:336px
+}
+#PlayerOne.ui-enabled.slide-index-panel-visible.fullscreen-mode .side-panel.component input,
+#PlayerOne.ui-enabled.slide-index-panel-visible.fullscreen-mode .side-panel.component p,
+#PlayerOne.ui-enabled.slide-index-panel-visible.fullscreen-mode .side-panel.component span {
+ font-size:18.2px
+}
+#PlayerOne.ui-enabled.slide-index-panel-visible.fullscreen-mode .side-panel.component .close-icon {
+ top:11.2px;
+ right:11.2px;
+ width:44.8px;
+ height:44.8px
+}
+#PlayerOne.ui-enabled.slide-index-panel-visible #middleOverlay.container,
+#PlayerOne.ui-enabled.slide-index-panel-visible #topOverlay.container {
+ display:none
+}
+#PlayerOne.ui-enabled .slideIndexOpener.component {
+ display:none;
+ position:relative
+}
+#PlayerOne.ui-enabled .slideIndexOpener.component .trigger svg path {
+ fill:#fff
+}
+#PlayerOne.ui-enabled .slideIndexOpener.component .trigger:hover svg path {
+ opacity:1
+}
+#PlayerOne.ui-enabled:not(.slide-deck-index-panel-open) .slideIndexOpener {
+ display:inline-block
+}
+#PlayerOne.ui-enabled .slideIndexPanel>div {
+ height:100%;
+ overflow:auto
+}
+#PlayerOne.ui-enabled .slideIndexPanel>div::-webkit-scrollbar {
+ width:6px;
+ background:none
+}
+#PlayerOne.ui-enabled .slideIndexPanel>div::-webkit-scrollbar-thumb {
+ -webkit-border-radius:10px;
+ border-radius:10px;
+ background:hsla(0,0%,100%,.3)
+}
+#PlayerOne.ui-enabled .slideIndexPanel>div::-webkit-scrollbar-track {
+ -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);
+ -webkit-border-radius:10px;
+ border-radius:10px
+}
+#PlayerOne.ui-enabled .slideIndexPanel ul {
+ margin:0;
+ padding-top:8px;
+ display:block
+}
+#PlayerOne.ui-enabled .slideIndexPanel li {
+ padding-bottom:8px;
+ display:inline-block;
+ float:left
+}
+#PlayerOne.ui-enabled .slideIndexPanel li p {
+ width:32px;
+ padding-right:8px;
+ text-align:right;
+ line-height:90px;
+ margin:0;
+ float:left;
+ color:#ccc
+}
+#PlayerOne.ui-enabled .slideIndexPanel li .slide {
+ position:relative;
+ margin:0;
+ padding:0;
+ float:left;
+ width:160px;
+ height:90px;
+ background-color:#161616;
+ background-size:160px 90px;
+ cursor:pointer;
+ transition:background .15s linear,opacity .15s linear
+}
+#PlayerOne.ui-enabled .slideIndexPanel li .slide span {
+ border-radius:1px;
+ background-color:rgba(22,22,22,.8);
+ height:18px;
+ color:#fff;
+ font-size:11px;
+ font-weight:500;
+ line-height:18px;
+ text-align:right;
+ padding:4px;
+ right:4px;
+ position:absolute;
+ bottom:4px
+}
+#PlayerOne.ui-enabled .slideIndexPanel li .slide:hover {
+ outline:2px solid #539eec
+}
+#PlayerOne.ui-enabled.fullscreen-mode .slideIndexPanel ul {
+ padding-top:11.2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .slideIndexPanel li {
+ margin-bottom:11.2px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .slideIndexPanel li p {
+ width:44.8px;
+ padding-right:11.2px;
+ line-height:126px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .slideIndexPanel li .slide {
+ width:224px;
+ height:126px;
+ background-size:224px 126px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .slideIndexPanel li .slide span {
+ padding:5.6px;
+ right:5.6px;
+ bottom:5.6px
+}
+#PlayerOne.ui-enabled .slide-deck-toggle-popover .popover .close {
+ top:50%;
+ transform:translateY(-50%)
+}
+#PlayerOne.ui-enabled .slide-deck-toggle-popover .popover label.onboarding {
+ display:block;
+ color:#fff;
+ text-align:center;
+ margin:6px;
+ padding-right:15px;
+ font-size:11px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .slide-deck-toggle-popover label.onboarding {
+ margin:8.4px;
+ padding-right:21px;
+ font-size:15.4px
+}
+#PlayerOne.ui-enabled #cookieOverlay {
+ position:absolute;
+ z-index:10000;
+ top:0;
+ left:0;
+ right:0;
+ bottom:0
+}
+#PlayerOne.ui-enabled .ibm-cookieOverlay {
+ -webkit-font-smoothing:antialiased;
+ -moz-osx-font-smoothing:grayscale;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ position:fixed;
+ z-index:1234567;
+ top:0;
+ left:0;
+ right:0;
+ bottom:0;
+ padding:10px;
+ font-family:Helvetica Neue,Helvetica,Arial,sans-serif;
+ background-color:rgba(0,0,0,.8)
+}
+#PlayerOne.ui-enabled .ibm-cookieOverlay--insideElement {
+ position:absolute
+}
+#PlayerOne.ui-enabled .ibm-cookieOverlay__window {
+ max-width:560px;
+ width:100%;
+ margin:0 auto;
+ padding:20px;
+ text-align:center;
+ background:#fff
+}
+#PlayerOne.ui-enabled .ibm-cookieOverlay__window--transparent {
+ padding:10px;
+ background:transparent
+}
+#PlayerOne.ui-enabled .ibm-cookieOverlay__text {
+ margin:0 0 10px;
+ font-size:14px;
+ line-height:1.3;
+ color:#343334
+}
+#PlayerOne.ui-enabled .ibm-cookieOverlay__window--transparent .ibm-cookieOverlay__text {
+ color:#fff;
+ font-weight:400
+}
+#PlayerOne.ui-enabled .ibm-cookieOverlay__text a {
+ color:#2669bb;
+ text-decoration:none
+}
+#PlayerOne.ui-enabled .ibm-cookieOverlay__button {
+ padding:8px 14px;
+ font:inherit;
+ font-size:13px;
+ line-height:14px;
+ font-weight:600;
+ color:#fff;
+ background:#2669bb;
+ border:0;
+ border-radius:3px;
+ cursor:pointer
+}
+#PlayerOne.ui-enabled .notification {
+ position:absolute;
+ bottom:38px;
+ background-color:hsla(0,0%,9%,.9);
+ min-height:50px;
+ display:flex;
+ flex-direction:row;
+ align-items:center;
+ padding:0 14px;
+ z-index:2
+}
+#PlayerOne.ui-enabled .notification-close {
+ display:block;
+ min-height:20px;
+ margin-left:18px
+}
+#PlayerOne.ui-enabled .notification h4 {
+ text-transform:none;
+ font-weight:600
+}
+#PlayerOne.ui-enabled .notification h4,
+#PlayerOne.ui-enabled .notification p {
+ margin:0;
+ letter-spacing:.2px;
+ text-shadow:0 0 3px 0 rgba(0,0,0,.4);
+ line-height:18px
+}
+#PlayerOne.ui-enabled .notification p {
+ color:#fff
+}
+#PlayerOne.ui-enabled .notification .icon {
+ display:flex;
+ padding-right:8px
+}
+#PlayerOne.ui-enabled .notification .content {
+ justify-content:center;
+ display:flex;
+ flex-direction:column
+}
+#PlayerOne.ui-enabled .notification .close {
+ display:flex;
+ position:unset
+}
+#PlayerOne.ui-enabled .notification a[href] {
+ color:#fff
+}
+#PlayerOne.ui-enabled.fullscreen-mode .notification {
+ bottom:53.2px;
+ padding:10px 14px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .notification h4,
+#PlayerOne.ui-enabled.fullscreen-mode .notification p {
+ font-size:18.2px;
+ line-height:25.2px
+}
+#PlayerOne.ui-enabled .viewer360 {
+ cursor:grabbing;
+ z-index:2;
+ position:absolute;
+ top:0
+}
+#PlayerOne.ui-enabled .viewer360__controls {
+ height:64px;
+ width:64px;
+ position:absolute;
+ left:8px;
+ top:50%;
+ transform:translateY(-50%);
+ align-items:center;
+ justify-content:center;
+ display:flex
+}
+#PlayerOne.ui-enabled .viewer360__controls p {
+ color:#fff;
+ margin:0;
+ font-size:11px;
+ z-index:1
+}
+#PlayerOne.ui-enabled .viewer360__controls:before {
+ content:"";
+ width:56px;
+ height:56px;
+ border-radius:50%;
+ background:hsla(0,0%,9%,.4);
+ position:absolute;
+ display:block;
+ top:4px;
+ left:4px
+}
+#PlayerOne.ui-enabled .viewer360__controls>button.component {
+ align-items:center;
+ justify-content:center;
+ display:flex
+}
+#PlayerOne.ui-enabled .viewer360__controls>button.component svg {
+ min-width:6px;
+ min-height:10px
+}
+#PlayerOne.ui-enabled .viewer360__controls .viewer360__icon-top {
+ text-align:center;
+ position:absolute;
+ top:0;
+ width:25px;
+ height:25px;
+ left:50%;
+ transform:translateX(-50%)
+}
+#PlayerOne.ui-enabled .viewer360__controls .viewer360__icon-top svg {
+ transform:rotate(-90deg)
+}
+#PlayerOne.ui-enabled .viewer360__controls .viewer360__icon-right {
+ text-align:center;
+ position:absolute;
+ width:25px;
+ height:25px;
+ top:50%;
+ transform:translateY(-50%);
+ right:0
+}
+#PlayerOne.ui-enabled .viewer360__controls .viewer360__icon-right svg {
+ transform:rotate(0deg)
+}
+#PlayerOne.ui-enabled .viewer360__controls .viewer360__icon-bottom {
+ text-align:center;
+ position:absolute;
+ left:50%;
+ width:25px;
+ height:25px;
+ transform:translateX(-50%);
+ bottom:0
+}
+#PlayerOne.ui-enabled .viewer360__controls .viewer360__icon-bottom svg {
+ transform:rotate(90deg)
+}
+#PlayerOne.ui-enabled .viewer360__controls .viewer360__icon-left {
+ text-align:center;
+ position:absolute;
+ width:25px;
+ height:25px;
+ top:50%;
+ transform:translateY(-50%);
+ left:0
+}
+#PlayerOne.ui-enabled .viewer360__controls .viewer360__icon-left svg {
+ transform:rotate(180deg)
+}
+#PlayerOne.ui-enabled.fullscreen-mode .viewer360__controls {
+ height:89.6px;
+ width:89.6px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .viewer360__controls:before {
+ height:78.4px;
+ width:78.4px;
+ top:5.6px;
+ left:5.6px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .viewer360__controls .viewer360__icon-bottom,
+#PlayerOne.ui-enabled.fullscreen-mode .viewer360__controls .viewer360__icon-left,
+#PlayerOne.ui-enabled.fullscreen-mode .viewer360__controls .viewer360__icon-right,
+#PlayerOne.ui-enabled.fullscreen-mode .viewer360__controls .viewer360__icon-top {
+ height:35px;
+ width:35px
+}
+#PlayerOne.ui-enabled.fullscreen-mode .viewer360__controls svg {
+ height:14px;
+ width:8.4px
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled .viewer360__controls {
+  display:none
+ }
+}
+#PlayerOne.ui-enabled.mobile-ui .viewer360__controls,
+#PlayerOne.ui-enabled.size-big .viewer360__controls,
+#PlayerOne.ui-enabled.size-medium .viewer360__controls,
+#PlayerOne.ui-enabled.size-small .viewer360__controls {
+ display:none
+}
+@media screen and (max-width:480px) {
+ #PlayerOne.ui-enabled #bottomContainer #controlPanelLeft,
+ #PlayerOne.ui-enabled #bottomContainer #controlPanelRight {
+  display:none
+ }
+ #PlayerOne.ui-enabled #StatusAnimation {
+  display:none!important
+ }
+ #PlayerOne.ui-enabled #middleOverlay {
+  position:absolute;
+  display:block;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,.5);
+  transition:opacity .2s ease-out
+ }
+ #PlayerOne.ui-enabled.fullscreen-mode #middleContainer .trigger svg {
+  width:61.6px;
+  height:61.6px
+ }
+ #PlayerOne.ui-enabled #middleContainer {
+  display:block;
+  z-index:1
+ }
+ #PlayerOne.ui-enabled #middleContainer .trigger svg {
+  width:44px;
+  height:44px;
+  transition:opacity .2s ease-out;
+  padding:0 6px;
+  opacity:.8
+ }
+ #PlayerOne.ui-enabled #middleContainer .trigger:hover svg {
+  opacity:1;
+  filter:drop-shadow(0 0 8px rgba(255,255,255,.4))
+ }
+ #PlayerOne.ui-enabled #middleContainer .component,
+ #PlayerOne.ui-enabled #middleContainer .component svg {
+  -webkit-filter:none;
+  filter:none
+ }
+ #PlayerOne.ui-enabled #middleContainer .component .popover,
+ #PlayerOne.ui-enabled #middleContainer .component svg .popover {
+  display:none;
+  transition:none
+ }
+ #PlayerOne.ui-enabled #middleContainer.popover-opened .component {
+  display:none!important
+ }
+ #PlayerOne.ui-enabled #middleContainer.popover-opened .popover-container.opened.animated {
+  display:inline-block!important
+ }
+ #PlayerOne.ui-enabled #middleContainer.popover-opened .popover-container.opened.animated .trigger {
+  display:none
+ }
+ #PlayerOne.ui-enabled #middleContainer.popover-opened .popover-container.opened.animated .popover {
+  display:block;
+  position:absolute;
+  top:50%!important;
+  left:50%!important;
+  transform:translateY(-50%) translateX(-50%);
+  -webkit-transform:translateY(-50%) translateX(-50%);
+  transition:none;
+  -webkit-transition:none
+ }
+ #PlayerOne.ui-enabled #middleContainer.popover-opened .popover-container.opened.animated .popover:after {
+  display:none
+ }
+ #PlayerOne.ui-enabled #ComponentsContainer.hovered #middleOverlay {
+  opacity:1;
+  z-index:2
+ }
+}
+#PlayerOne.ui-enabled.size-big #bottomContainer #controlPanelLeft,
+#PlayerOne.ui-enabled.size-big #bottomContainer #controlPanelRight,
+#PlayerOne.ui-enabled.size-medium #bottomContainer #controlPanelLeft,
+#PlayerOne.ui-enabled.size-medium #bottomContainer #controlPanelRight,
+#PlayerOne.ui-enabled.size-small #bottomContainer #controlPanelLeft,
+#PlayerOne.ui-enabled.size-small #bottomContainer #controlPanelRight {
+ display:none
+}
+#PlayerOne.ui-enabled.size-big #StatusAnimation,
+#PlayerOne.ui-enabled.size-medium #StatusAnimation,
+#PlayerOne.ui-enabled.size-small #StatusAnimation {
+ display:none!important
+}
+#PlayerOne.ui-enabled.size-big #middleOverlay,
+#PlayerOne.ui-enabled.size-medium #middleOverlay,
+#PlayerOne.ui-enabled.size-small #middleOverlay {
+ position:absolute;
+ display:block;
+ top:0;
+ left:0;
+ width:100%;
+ height:100%;
+ background:rgba(0,0,0,.5);
+ transition:opacity .2s ease-out
+}
+#PlayerOne.ui-enabled.size-big.fullscreen-mode #middleContainer .trigger svg,
+#PlayerOne.ui-enabled.size-medium.fullscreen-mode #middleContainer .trigger svg,
+#PlayerOne.ui-enabled.size-small.fullscreen-mode #middleContainer .trigger svg {
+ width:61.6px;
+ height:61.6px
+}
+#PlayerOne.ui-enabled.size-big #middleContainer,
+#PlayerOne.ui-enabled.size-medium #middleContainer,
+#PlayerOne.ui-enabled.size-small #middleContainer {
+ display:block;
+ z-index:1
+}
+#PlayerOne.ui-enabled.size-big #middleContainer .trigger svg,
+#PlayerOne.ui-enabled.size-medium #middleContainer .trigger svg,
+#PlayerOne.ui-enabled.size-small #middleContainer .trigger svg {
+ width:44px;
+ height:44px;
+ transition:opacity .2s ease-out;
+ padding:0 6px;
+ opacity:.8
+}
+#PlayerOne.ui-enabled.size-big #middleContainer .trigger:hover svg,
+#PlayerOne.ui-enabled.size-medium #middleContainer .trigger:hover svg,
+#PlayerOne.ui-enabled.size-small #middleContainer .trigger:hover svg {
+ opacity:1;
+ filter:drop-shadow(0 0 8px rgba(255,255,255,.4))
+}
+#PlayerOne.ui-enabled.size-big #middleContainer .component,
+#PlayerOne.ui-enabled.size-big #middleContainer .component svg,
+#PlayerOne.ui-enabled.size-medium #middleContainer .component,
+#PlayerOne.ui-enabled.size-medium #middleContainer .component svg,
+#PlayerOne.ui-enabled.size-small #middleContainer .component,
+#PlayerOne.ui-enabled.size-small #middleContainer .component svg {
+ -webkit-filter:none;
+ filter:none
+}
+#PlayerOne.ui-enabled.size-big #middleContainer .component .popover,
+#PlayerOne.ui-enabled.size-big #middleContainer .component svg .popover,
+#PlayerOne.ui-enabled.size-medium #middleContainer .component .popover,
+#PlayerOne.ui-enabled.size-medium #middleContainer .component svg .popover,
+#PlayerOne.ui-enabled.size-small #middleContainer .component .popover,
+#PlayerOne.ui-enabled.size-small #middleContainer .component svg .popover {
+ display:none;
+ transition:none
+}
+#PlayerOne.ui-enabled.size-big #middleContainer.popover-opened .component,
+#PlayerOne.ui-enabled.size-medium #middleContainer.popover-opened .component,
+#PlayerOne.ui-enabled.size-small #middleContainer.popover-opened .component {
+ display:none!important
+}
+#PlayerOne.ui-enabled.size-big #middleContainer.popover-opened .popover-container.opened.animated,
+#PlayerOne.ui-enabled.size-medium #middleContainer.popover-opened .popover-container.opened.animated,
+#PlayerOne.ui-enabled.size-small #middleContainer.popover-opened .popover-container.opened.animated {
+ display:inline-block!important
+}
+#PlayerOne.ui-enabled.size-big #middleContainer.popover-opened .popover-container.opened.animated .trigger,
+#PlayerOne.ui-enabled.size-medium #middleContainer.popover-opened .popover-container.opened.animated .trigger,
+#PlayerOne.ui-enabled.size-small #middleContainer.popover-opened .popover-container.opened.animated .trigger {
+ display:none
+}
+#PlayerOne.ui-enabled.size-big #middleContainer.popover-opened .popover-container.opened.animated .popover,
+#PlayerOne.ui-enabled.size-medium #middleContainer.popover-opened .popover-container.opened.animated .popover,
+#PlayerOne.ui-enabled.size-small #middleContainer.popover-opened .popover-container.opened.animated .popover {
+ display:block;
+ position:absolute;
+ top:50%!important;
+ left:50%!important;
+ transform:translateY(-50%) translateX(-50%);
+ -webkit-transform:translateY(-50%) translateX(-50%);
+ transition:none;
+ -webkit-transition:none
+}
+#PlayerOne.ui-enabled.size-big #middleContainer.popover-opened .popover-container.opened.animated .popover:after,
+#PlayerOne.ui-enabled.size-medium #middleContainer.popover-opened .popover-container.opened.animated .popover:after,
+#PlayerOne.ui-enabled.size-small #middleContainer.popover-opened .popover-container.opened.animated .popover:after {
+ display:none
+}
+#PlayerOne.ui-enabled.size-big #ComponentsContainer.hovered #middleOverlay,
+#PlayerOne.ui-enabled.size-medium #ComponentsContainer.hovered #middleOverlay,
+#PlayerOne.ui-enabled.size-small #ComponentsContainer.hovered #middleOverlay {
+ opacity:1;
+ z-index:2
+}
+@media screen and (max-width:240px) {
+ #PlayerOne.ui-enabled #bottomContainer {
+  display:none
+ }
+}
+#PlayerOne.ui-enabled.size-small #bottomContainer {
+ display:none
+}
+
