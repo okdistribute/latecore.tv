@@ -4,6 +4,7 @@
   "description": "LATECORE",
   "main": "index.js",
   "scripts": {
+    "watch": "watchify index.js -o bundle.js",
     "build": "browserify index.js > bundle.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,7 +19,8 @@
   },
   "homepage": "https://github.com/okdistribute/latecore.tv#readme",
   "devDependencies": {
-    "browserify": "^17.0.0"
+    "browserify": "^17.0.0",
+    "watchify": "^3.11.1"
   },
   "dependencies": {
     "basic-tts": "^1.0.5"
